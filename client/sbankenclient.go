@@ -17,7 +17,7 @@ func NewSbankenClient(token authentication.Token) (*SbankenClient) {
 	return &SbankenClient{token: token, client: http.Client{}}
 }
 
-func (sbt SbankenClient) Get(url string) ([]byte, error) {
+func (sbt SbankenClient) Get(url string, queryParams map[string]string) ([]byte, error) {
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Print(err)
@@ -26,6 +26,12 @@ func (sbt SbankenClient) Get(url string) ([]byte, error) {
 	// TODO: refresh token when close to expiration or expired
 	request.Header.Add("Accept", "application/json")
 	request.Header.Add("Authorization", sbt.token.GetTokenType() + " " +sbt.token.GetTokenString())
+
+	query := request.URL.Query()
+	for key, value := range queryParams {
+		query.Add(key, value)
+	}
+	request.URL.RawQuery = query.Encode()
 
 	response, err := sbt.client.Do(request)
 	if err != nil {

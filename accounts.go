@@ -44,7 +44,7 @@ func NewAccountRepository(config Config) (*accountsRepository) {
 // TODO: Consider returning the error object from the json response?
 func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 	var accountsRsp accountsResponse
-	response, err := ar.client.Get(ar.url + customerId)
+	response, err := ar.client.Get(ar.url + customerId, nil)
 	if err != nil {
 		return accountsRsp.Items, err
 	}
@@ -57,7 +57,7 @@ func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 // TODO: Consider returning the error object from the json response?
 func (ar accountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
 	var accountRsp accountResponse
-	response, err := ar.client.Get(ar.url + customerId + "/" + accountNumber)
+	response, err := ar.client.Get(ar.url + customerId + "/" + accountNumber, nil)
 	if err != nil {
 		return accountRsp.Item, err
 	}

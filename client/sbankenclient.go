@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"io/ioutil"
-	"github.com/larwef/sbanken/authentication"
+	"github.com/larwef/sbankenSDK/authentication"
 )
 
 type SbankenClient struct {

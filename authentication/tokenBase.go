@@ -9,5 +9,3 @@ type tokenBase struct {
 	validTo     time.Time
 	tokenType   string
 }
-
-

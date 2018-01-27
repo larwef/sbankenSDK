@@ -1,10 +1,10 @@
-package sbanken
+package sbankenSDK
 
 import (
+	"github.com/larwef/sbankenSDK/common"
+	"github.com/larwef/sbankenSDK/authentication"
+	"github.com/larwef/sbankenSDK/client"
 	"encoding/json"
-	"github.com/larwef/sbanken/common"
-	"github.com/larwef/sbanken/client"
-	"github.com/larwef/sbanken/authentication"
 )
 
 type transactionsRepository struct {

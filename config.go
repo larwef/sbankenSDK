@@ -1,4 +1,4 @@
-package sbanken
+package sbankenSDK
 
 type Config struct {
 	ClientId             string

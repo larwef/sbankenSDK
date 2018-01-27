@@ -1,10 +1,11 @@
-package sbanken
+package sbankenSDK
 
 import (
 	"encoding/json"
-	"github.com/larwef/sbanken/common"
-	"github.com/larwef/sbanken/client"
-	"github.com/larwef/sbanken/authentication"
+
+	"github.com/larwef/sbankenSDK/common"
+	"github.com/larwef/sbankenSDK/authentication"
+	"github.com/larwef/sbankenSDK/client"
 )
 
 type accountsRepository struct {

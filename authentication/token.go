@@ -1,6 +1,8 @@
 package authentication
 
-import "time"
+import (
+	"time"
+)
 
 type Token interface {
 	GetTokenString() (string)

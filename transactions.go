@@ -54,7 +54,7 @@ func (tr transactionsRepository) GetTransactions(customerId string, accountNumbe
 		return transactionsRsp.Items, err
 	}
 
-	json.Unmarshal(response, &transactionsRsp)
+	err = json.Unmarshal(response, &transactionsRsp)
 	if transactionsRsp.IsError == true {
 		return transactionsRsp.Items, errors.New(transactionsRsp.ErrorMessage)
 	}

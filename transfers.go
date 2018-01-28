@@ -42,7 +42,7 @@ func (tr transfersRepository) Transfer(customerId string, transferRequest Tranfe
 		return err
 	}
 
-	json.Unmarshal(response, &transferRsp)
+	err = json.Unmarshal(response, &transferRsp)
 	if transferRsp.IsError == true {
 		return errors.New(transferRsp.ErrorMessage)
 	}

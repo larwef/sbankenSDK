@@ -49,7 +49,7 @@ func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 		return accountsRsp.Items, err
 	}
 
-	json.Unmarshal(response, &accountsRsp)
+	err = json.Unmarshal(response, &accountsRsp)
 	if accountsRsp.IsError == true {
 		return accountsRsp.Items, errors.New(accountsRsp.ErrorMessage)
 	}
@@ -64,7 +64,7 @@ func (ar accountsRepository) GetAccount(customerId string, accountNumber string)
 		return accountRsp.Item, err
 	}
 
-	json.Unmarshal(response, &accountRsp)
+	err = json.Unmarshal(response, &accountRsp)
 	if accountRsp.IsError == true {
 		return accountRsp.Item, errors.New(accountRsp.ErrorMessage)
 	}

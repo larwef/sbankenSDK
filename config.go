@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	CustomerID           string `json:"customerId"`
+	CustomerId           string `json:"customerId"`
 	ClientId             string `json:"clientId"`
 	ClientSecret         string `json:"clientSecret"`
 	IdentityServer       string `json:"identityServer"`

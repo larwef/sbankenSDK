@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"time"
 	"strconv"
+	"errors"
 )
 
 type transactionsRepository struct {
@@ -54,6 +55,9 @@ func (tr transactionsRepository) GetTransactions(customerId string, accountNumbe
 	}
 
 	json.Unmarshal(response, &transactionsRsp)
+	if transactionsRsp.IsError == true {
+		return transactionsRsp.Items, errors.New(transactionsRsp.ErrorMessage)
+	}
 
 	return transactionsRsp.Items, err
 }

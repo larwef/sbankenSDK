@@ -6,6 +6,7 @@ import (
 	"github.com/larwef/sbankenSDK/common"
 	"github.com/larwef/sbankenSDK/authentication"
 	"github.com/larwef/sbankenSDK/client"
+	"errors"
 )
 
 type accountsRepository struct {
@@ -41,7 +42,6 @@ func NewAccountRepository(config Config) (*accountsRepository) {
 	return &accountsRepository{url: config.AccountsEndpoint, client: client.NewSbankenClient(&token)}
 }
 
-// TODO: Consider returning the error object from the json response?
 func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 	var accountsRsp accountsResponse
 	response, err := ar.client.Get(ar.url + customerId, nil)
@@ -50,11 +50,13 @@ func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 	}
 
 	json.Unmarshal(response, &accountsRsp)
+	if accountsRsp.IsError == true {
+		return accountsRsp.Items, errors.New(accountsRsp.ErrorMessage)
+	}
 
 	return accountsRsp.Items, err
 }
 
-// TODO: Consider returning the error object from the json response?
 func (ar accountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
 	var accountRsp accountResponse
 	response, err := ar.client.Get(ar.url + customerId + "/" + accountNumber, nil)
@@ -63,6 +65,9 @@ func (ar accountsRepository) GetAccount(customerId string, accountNumber string)
 	}
 
 	json.Unmarshal(response, &accountRsp)
+	if accountRsp.IsError == true {
+		return accountRsp.Item, errors.New(accountRsp.ErrorMessage)
+	}
 
 	return accountRsp.Item, err
 }

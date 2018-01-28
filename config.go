@@ -13,6 +13,7 @@ type Config struct {
 	IdentityServer       string `json:"identityServer"`
 	AccountsEndpoint     string `json:"accountsEndpoint"`
 	TransactionsEndpoint string `json:"transactionsEndpoint"`
+	TransfersEndpoint    string `json:"transfersEndpoint"`
 }
 
 func ConfigFromFile(filepath string) (Config) {
@@ -27,4 +28,3 @@ func ConfigFromFile(filepath string) (Config) {
 
 	return config
 }
-

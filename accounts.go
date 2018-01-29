@@ -43,13 +43,14 @@ func NewAccountRepository(config Config) (*accountsRepository) {
 }
 
 func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
-	var accountsRsp accountsResponse
 	response, err := ar.client.Get(ar.url + customerId, nil)
+	defer response.Body.Close()
 	if err != nil {
-		return accountsRsp.Items, err
+		return []Account{}, err
 	}
 
-	err = json.Unmarshal(response, &accountsRsp)
+	var accountsRsp accountsResponse
+	err = json.NewDecoder(response.Body).Decode(&accountsRsp)
 	if accountsRsp.IsError == true {
 		return accountsRsp.Items, errors.New(accountsRsp.ErrorMessage)
 	}
@@ -58,13 +59,14 @@ func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 }
 
 func (ar accountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
-	var accountRsp accountResponse
 	response, err := ar.client.Get(ar.url + customerId + "/" + accountNumber, nil)
+	defer response.Body.Close()
 	if err != nil {
-		return accountRsp.Item, err
+		return Account{}, err
 	}
 
-	err = json.Unmarshal(response, &accountRsp)
+	var accountRsp accountResponse
+	err = json.NewDecoder(response.Body).Decode(&accountRsp)
 	if accountRsp.IsError == true {
 		return accountRsp.Item, errors.New(accountRsp.ErrorMessage)
 	}

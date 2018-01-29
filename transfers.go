@@ -30,19 +30,19 @@ func NewTranfsersRepository(config Config) (*transfersRepository) {
 }
 
 func (tr transfersRepository) Transfer(customerId string, transferRequest TranferRequest) (error) {
-	var transferRsp transferResponse
-
 	payload, err := json.Marshal(transferRequest)
 	if err != nil {
 		return err
 	}
 
 	response, err := tr.client.Post(tr.url+customerId, nil, payload)
+	defer response.Body.Close()
 	if err != nil {
 		return err
 	}
 
-	err = json.Unmarshal(response, &transferRsp)
+	var transferRsp transferResponse
+	err = json.NewDecoder(response.Body).Decode(&transferRsp)
 	if transferRsp.IsError == true {
 		return errors.New(transferRsp.ErrorMessage)
 	}

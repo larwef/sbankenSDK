@@ -40,8 +40,6 @@ func NewTransactionRepository(config Config) (*transactionsRepository) {
 }
 
 func (tr transactionsRepository) GetTransactions(customerId string, accountNumber string, index int, length int, startDate time.Time, endDate time.Time) ([]Transaction, error) {
-	var transactionsRsp transactionsResponse
-
 	queryParams := map[string]string{
 		"index":     strconv.Itoa(index),
 		"length":    strconv.Itoa(length),
@@ -50,11 +48,13 @@ func (tr transactionsRepository) GetTransactions(customerId string, accountNumbe
 	}
 
 	response, err := tr.client.Get(tr.url+customerId+"/"+accountNumber, queryParams)
+	defer response.Body.Close()
 	if err != nil {
-		return transactionsRsp.Items, err
+		return []Transaction{}, err
 	}
 
-	err = json.Unmarshal(response, &transactionsRsp)
+	var transactionsRsp transactionsResponse
+	err = json.NewDecoder(response.Body).Decode(&transactionsRsp)
 	if transactionsRsp.IsError == true {
 		return transactionsRsp.Items, errors.New(transactionsRsp.ErrorMessage)
 	}

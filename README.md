@@ -1,11 +1,11 @@
-#Sbanken Go SDK
+# Sbanken Go SDK
 Implements Accounts, Transaction and Transfer.
 
 API-documentation: https://api.sbanken.no/Bank/swagger/index.html
 
 Code examples in other languages: https://github.com/Sbanken/api-examples
 
-###Configuration
+### Configuration
 Example configuration:
 ```
 {

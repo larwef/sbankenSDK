@@ -21,6 +21,14 @@ type transactionsResponse struct {
 	common.Error
 }
 
+type TransactionRequest struct {
+	AccountNumber string
+	StartIndex    int
+	Lenght        int
+	StartDate     time.Time
+	EndDate       time.Time
+}
+
 type Transaction struct {
 	TransactionId      string    `json:"transactionId"`
 	CustomerId         string    `json:"customerId"`
@@ -39,15 +47,15 @@ func NewTransactionRepository(config Config) (*transactionsRepository) {
 	return &transactionsRepository{url: config.TransactionsEndpoint, client: client.NewSbankenClient(&token)}
 }
 
-func (tr transactionsRepository) GetTransactions(customerId string, accountNumber string, index int, length int, startDate time.Time, endDate time.Time) ([]Transaction, error) {
+func (tr transactionsRepository) GetTransactions(customerId string, request TransactionRequest) ([]Transaction, error) {
 	queryParams := map[string]string{
-		"index":     strconv.Itoa(index),
-		"length":    strconv.Itoa(length),
-		"startDate": startDate.Format(time.RFC3339),
-		"endDate":   endDate.Format(time.RFC3339),
+		"index":     strconv.Itoa(request.StartIndex),
+		"length":    strconv.Itoa(request.Lenght),
+		"startDate": request.StartDate.Format(time.RFC3339),
+		"endDate":   request.EndDate.Format(time.RFC3339),
 	}
 
-	response, err := tr.client.Get(tr.url+customerId+"/"+accountNumber, queryParams)
+	response, err := tr.client.Get(tr.url+customerId+"/"+request.AccountNumber, queryParams)
 	defer response.Body.Close()
 	if err != nil {
 		return []Transaction{}, err

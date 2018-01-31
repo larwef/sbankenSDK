@@ -3,7 +3,7 @@ package client
 import (
 	"net/http"
 	"github.com/larwef/sbankenSDK/authentication"
-	"bytes"
+	"io"
 )
 
 type SbankenClient struct {
@@ -24,7 +24,7 @@ func (sbt SbankenClient) Get(url string, queryParams map[string]string) (*http.R
 	return sbt.client.Do(request)
 }
 
-func (sbt SbankenClient) Post(url string, queryParams map[string]string, payload []byte) (*http.Response, error) {
+func (sbt SbankenClient) Post(url string, queryParams map[string]string, payload io.Reader) (*http.Response, error) {
 	request, err := sbt.getRequest(url, http.MethodPost, queryParams, payload)
 	request.Header.Add("Content-Type", "application/json")
 	if err != nil {
@@ -34,8 +34,8 @@ func (sbt SbankenClient) Post(url string, queryParams map[string]string, payload
 	return sbt.client.Do(request)
 }
 
-func (sbt SbankenClient) getRequest(url string, method string, queryParams map[string]string, payload []byte) (*http.Request, error){
-	request, err := http.NewRequest(method, url, bytes.NewBuffer(payload))
+func (sbt SbankenClient) getRequest(url string, method string, queryParams map[string]string, payload io.Reader) (*http.Request, error) {
+	request, err := http.NewRequest(method, url, payload)
 	if err != nil {
 		return request, err
 	}

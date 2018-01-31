@@ -43,7 +43,7 @@ func NewAccountRepository(config Config) (*accountsRepository) {
 }
 
 func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
-	response, err := ar.client.Get(ar.url + customerId, nil)
+	response, err := ar.client.Get(ar.url+customerId, nil)
 	defer response.Body.Close()
 	if err != nil {
 		return []Account{}, err
@@ -59,7 +59,7 @@ func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 }
 
 func (ar accountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
-	response, err := ar.client.Get(ar.url + customerId + "/" + accountNumber, nil)
+	response, err := ar.client.Get(ar.url+customerId+"/"+accountNumber, nil)
 	defer response.Body.Close()
 	if err != nil {
 		return Account{}, err

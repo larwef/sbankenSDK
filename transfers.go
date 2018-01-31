@@ -6,6 +6,7 @@ import (
 	"github.com/larwef/sbankenSDK/authentication"
 	"encoding/json"
 	"errors"
+	"bytes"
 )
 
 type transfersRepository struct {
@@ -35,7 +36,7 @@ func (tr transfersRepository) Transfer(customerId string, transferRequest Tranfe
 		return err
 	}
 
-	response, err := tr.client.Post(tr.url+customerId, nil, payload)
+	response, err := tr.client.Post(tr.url+customerId, nil, bytes.NewBuffer(payload))
 	defer response.Body.Close()
 	if err != nil {
 		return err

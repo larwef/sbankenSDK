@@ -1,10 +1,10 @@
 package sbankenSDK
 
 import (
-	"io/ioutil"
-	"fmt"
-	"os"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 type Config struct {
@@ -17,7 +17,7 @@ type Config struct {
 	TransfersEndpoint    string `json:"transfersEndpoint"`
 }
 
-func ConfigFromFile(filepath string) (Config) {
+func ConfigFromFile(filepath string) Config {
 	file, err := ioutil.ReadFile(filepath)
 	if err != nil {
 		fmt.Printf("File error: %v\n", err)

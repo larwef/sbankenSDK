@@ -1,18 +1,17 @@
 package sbankenSDK
 
 import (
-	"github.com/larwef/sbankenSDK/common"
+	"encoding/json"
+	"errors"
 	"github.com/larwef/sbankenSDK/authentication"
 	"github.com/larwef/sbankenSDK/client"
-	"encoding/json"
-	"time"
+	"github.com/larwef/sbankenSDK/common"
 	"strconv"
-	"errors"
+	"time"
 )
 
 type transactionsRepository struct {
-	url    string
-	client *client.SbankenClient
+	common.Repository
 }
 
 type transactionsResponse struct {
@@ -42,9 +41,9 @@ type Transaction struct {
 	InterestDate       time.Time `json:"interestDate"`
 }
 
-func NewTransactionRepository(config Config) (*transactionsRepository) {
+func NewTransactionRepository(config Config) *transactionsRepository {
 	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &transactionsRepository{url: config.TransactionsEndpoint, client: client.NewSbankenClient(&token)}
+	return &transactionsRepository{common.Repository{Url: config.TransactionsEndpoint, Client: client.NewSbankenClient(&token)}}
 }
 
 func (tr transactionsRepository) GetTransactions(customerId string, request TransactionRequest) ([]Transaction, error) {
@@ -55,7 +54,7 @@ func (tr transactionsRepository) GetTransactions(customerId string, request Tran
 		"endDate":   request.EndDate.Format(time.RFC3339),
 	}
 
-	response, err := tr.client.Get(tr.url+customerId+"/"+request.AccountNumber, queryParams)
+	response, err := tr.Client.Get(tr.Url+customerId+"/"+request.AccountNumber, queryParams)
 	defer response.Body.Close()
 	if err != nil {
 		return []Transaction{}, err

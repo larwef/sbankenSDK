@@ -1,17 +1,16 @@
 package sbankenSDK
 
 import (
-	"github.com/larwef/sbankenSDK/common"
-	"github.com/larwef/sbankenSDK/client"
-	"github.com/larwef/sbankenSDK/authentication"
+	"bytes"
 	"encoding/json"
 	"errors"
-	"bytes"
+	"github.com/larwef/sbankenSDK/authentication"
+	"github.com/larwef/sbankenSDK/client"
+	"github.com/larwef/sbankenSDK/common"
 )
 
 type transfersRepository struct {
-	url    string
-	client *client.SbankenClient
+	common.Repository
 }
 
 type transferResponse struct {
@@ -25,18 +24,18 @@ type TranferRequest struct {
 	Message     string  `json:"message"`
 }
 
-func NewTranfsersRepository(config Config) (*transfersRepository) {
+func NewTranfsersRepository(config Config) *transfersRepository {
 	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &transfersRepository{url: config.TransfersEndpoint, client: client.NewSbankenClient(&token)}
+	return &transfersRepository{common.Repository{Url: config.TransfersEndpoint, Client: client.NewSbankenClient(&token)}}
 }
 
-func (tr transfersRepository) Transfer(customerId string, transferRequest TranferRequest) (error) {
+func (tr transfersRepository) Transfer(customerId string, transferRequest TranferRequest) error {
 	payload, err := json.Marshal(transferRequest)
 	if err != nil {
 		return err
 	}
 
-	response, err := tr.client.Post(tr.url+customerId, nil, bytes.NewBuffer(payload))
+	response, err := tr.Client.Post(tr.Url+customerId, nil, bytes.NewBuffer(payload))
 	defer response.Body.Close()
 	if err != nil {
 		return err

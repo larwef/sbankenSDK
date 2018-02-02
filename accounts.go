@@ -2,16 +2,14 @@ package sbankenSDK
 
 import (
 	"encoding/json"
-
-	"github.com/larwef/sbankenSDK/common"
+	"errors"
 	"github.com/larwef/sbankenSDK/authentication"
 	"github.com/larwef/sbankenSDK/client"
-	"errors"
+	"github.com/larwef/sbankenSDK/common"
 )
 
 type accountsRepository struct {
-	url    string
-	client *client.SbankenClient
+	common.Repository
 }
 
 type accountsResponse struct {
@@ -37,13 +35,13 @@ type Account struct {
 	DefaultAccount  bool    `json:"defaultAccount"`
 }
 
-func NewAccountRepository(config Config) (*accountsRepository) {
+func NewAccountRepository(config Config) *accountsRepository {
 	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &accountsRepository{url: config.AccountsEndpoint, client: client.NewSbankenClient(&token)}
+	return &accountsRepository{common.Repository{Url: config.AccountsEndpoint, Client: client.NewSbankenClient(&token)}}
 }
 
 func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
-	response, err := ar.client.Get(ar.url+customerId, nil)
+	response, err := ar.Client.Get(ar.Url+customerId, nil)
 	defer response.Body.Close()
 	if err != nil {
 		return []Account{}, err
@@ -59,7 +57,7 @@ func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 }
 
 func (ar accountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
-	response, err := ar.client.Get(ar.url+customerId+"/"+accountNumber, nil)
+	response, err := ar.Client.Get(ar.Url+customerId+"/"+accountNumber, nil)
 	defer response.Body.Close()
 	if err != nil {
 		return Account{}, err

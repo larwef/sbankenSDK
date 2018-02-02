@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-type transactionsRepository struct {
+type TransactionsRepository struct {
 	common.Repository
 }
 
@@ -41,12 +41,14 @@ type Transaction struct {
 	InterestDate       time.Time `json:"interestDate"`
 }
 
-func NewTransactionRepository(config Config) *transactionsRepository {
+// Constructor for TransactionRepository
+func NewTransactionRepository(config Config) *TransactionsRepository {
 	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &transactionsRepository{common.Repository{Url: config.TransactionsEndpoint, Client: client.NewSbankenClient(&token)}}
+	return &TransactionsRepository{common.Repository{Url: config.TransactionsEndpoint, Client: client.NewSbankenClient(&token)}}
 }
 
-func (tr transactionsRepository) GetTransactions(customerId string, request TransactionRequest) ([]Transaction, error) {
+// Gets transactions for a specified account
+func (tr *TransactionsRepository) GetTransactions(customerId string, request TransactionRequest) ([]Transaction, error) {
 	queryParams := map[string]string{
 		"index":     strconv.Itoa(request.StartIndex),
 		"length":    strconv.Itoa(request.Lenght),

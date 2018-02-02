@@ -9,7 +9,7 @@ import (
 	"github.com/larwef/sbankenSDK/common"
 )
 
-type transfersRepository struct {
+type TransfersRepository struct {
 	common.Repository
 }
 
@@ -24,12 +24,14 @@ type TranferRequest struct {
 	Message     string  `json:"message"`
 }
 
-func NewTranfsersRepository(config Config) *transfersRepository {
+// Constructor for TransferRepository
+func NewTranfsersRepository(config Config) *TransfersRepository {
 	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &transfersRepository{common.Repository{Url: config.TransfersEndpoint, Client: client.NewSbankenClient(&token)}}
+	return &TransfersRepository{common.Repository{Url: config.TransfersEndpoint, Client: client.NewSbankenClient(&token)}}
 }
 
-func (tr transfersRepository) Transfer(customerId string, transferRequest TranferRequest) error {
+// Transfer funds from one account to another
+func (tr *TransfersRepository) Transfer(customerId string, transferRequest TranferRequest) error {
 	payload, err := json.Marshal(transferRequest)
 	if err != nil {
 		return err

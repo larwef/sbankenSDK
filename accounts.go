@@ -1,3 +1,6 @@
+// Implements Accounts, Transaction and Transfer.
+//
+// API-documentation: https://api.sbanken.no/Bank/swagger/index.html
 package sbankenSDK
 
 import (
@@ -8,7 +11,7 @@ import (
 	"github.com/larwef/sbankenSDK/common"
 )
 
-type accountsRepository struct {
+type AccountsRepository struct {
 	common.Repository
 }
 
@@ -35,12 +38,14 @@ type Account struct {
 	DefaultAccount  bool    `json:"defaultAccount"`
 }
 
-func NewAccountRepository(config Config) *accountsRepository {
+// Constructor for AccountRepository
+func NewAccountRepository(config Config) *AccountsRepository {
 	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &accountsRepository{common.Repository{Url: config.AccountsEndpoint, Client: client.NewSbankenClient(&token)}}
+	return &AccountsRepository{common.Repository{Url: config.AccountsEndpoint, Client: client.NewSbankenClient(&token)}}
 }
 
-func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
+// Gets all accounts for user.
+func (ar *AccountsRepository) GetAccounts(customerId string) ([]Account, error) {
 	response, err := ar.Client.Get(ar.Url+customerId, nil)
 	defer response.Body.Close()
 	if err != nil {
@@ -56,7 +61,8 @@ func (ar accountsRepository) GetAccounts(customerId string) ([]Account, error) {
 	return accountsRsp.Items, err
 }
 
-func (ar accountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
+// Gets information about a specified account.
+func (ar *AccountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
 	response, err := ar.Client.Get(ar.Url+customerId+"/"+accountNumber, nil)
 	defer response.Body.Close()
 	if err != nil {

@@ -17,6 +17,7 @@ type Config struct {
 	TransfersEndpoint    string `json:"transfersEndpoint"`
 }
 
+// Retrieves config from .json file
 func ConfigFromFile(filepath string) Config {
 	file, err := ioutil.ReadFile(filepath)
 	if err != nil {

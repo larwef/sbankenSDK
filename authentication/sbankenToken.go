@@ -24,6 +24,7 @@ type sbankenTokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
+// Constructor for sbankenToken
 func NewSbankenToken(identityServer string, clientId string, clientSecret string) (sbankenToken) {
 	response := callIdentityServer(identityServer, clientId, clientSecret)
 

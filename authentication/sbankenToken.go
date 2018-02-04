@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-type sbankenToken struct {
+type SbankenToken struct {
 	tokenBase
 	identityServer string
 	clientId       string
@@ -19,16 +19,16 @@ type sbankenToken struct {
 }
 
 type sbankenTokenResponse struct {
-	AccessToken string `json:"access_token"`
-	TokenType   string `json:"token_type"`
-	ExpiresIn   int    `json:"expires_in"`
+	AccessToken string `json:"access_token,omitempty"`
+	TokenType   string `json:"token_type,omitempty"`
+	ExpiresIn   int    `json:"expires_in,omitempty"`
 }
 
-// Constructor for sbankenToken
-func NewSbankenToken(identityServer string, clientId string, clientSecret string) (sbankenToken) {
+// Constructor for SbankenToken
+func NewSbankenToken(identityServer string, clientId string, clientSecret string) (SbankenToken) {
 	response := callIdentityServer(identityServer, clientId, clientSecret)
 
-	token := sbankenToken{
+	token := SbankenToken{
 		tokenBase: tokenBase{
 			tokenString: response.AccessToken,
 			validTo:     time.Now().Add(time.Duration(response.ExpiresIn) * time.Second),
@@ -42,19 +42,19 @@ func NewSbankenToken(identityServer string, clientId string, clientSecret string
 	return token
 }
 
-func (sbt *sbankenToken) GetTokenString() (string) {
+func (sbt *SbankenToken) GetTokenString() (string) {
 	return sbt.tokenString
 }
 
-func (sbt *sbankenToken) GetExpirationTime() (time.Time) {
+func (sbt *SbankenToken) GetExpirationTime() (time.Time) {
 	return sbt.validTo
 }
 
-func (sbt *sbankenToken) GetTokenType() (string) {
+func (sbt *SbankenToken) GetTokenType() (string) {
 	return sbt.tokenType
 }
 
-func (sbt *sbankenToken) RefreshToken() {
+func (sbt *SbankenToken) RefreshToken() {
 	response := callIdentityServer(sbt.identityServer, sbt.clientId, sbt.clientSecret)
 
 	sbt.tokenString = response.AccessToken

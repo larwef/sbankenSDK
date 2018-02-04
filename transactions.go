@@ -3,21 +3,16 @@ package sbankenSDK
 import (
 	"encoding/json"
 	"errors"
-	"github.com/larwef/sbankenSDK/authentication"
-	"github.com/larwef/sbankenSDK/client"
-	"github.com/larwef/sbankenSDK/common"
 	"strconv"
 	"time"
 )
 
-type TransactionsRepository struct {
-	common.Repository
-}
+type TransactionService service
 
 type transactionsResponse struct {
-	AvailableItems int           `json:"availableItems"`
-	Items          []Transaction `json:"items"`
-	common.Error
+	AvailableItems int           `json:"availableItems,omitempty"`
+	Items          []Transaction `json:"items,omitempty"`
+	sbankenError
 }
 
 type TransactionRequest struct {
@@ -29,26 +24,20 @@ type TransactionRequest struct {
 }
 
 type Transaction struct {
-	TransactionId      string    `json:"transactionId"`
-	CustomerId         string    `json:"customerId"`
-	AccountNumber      string    `json:"accountNumber"`
-	OtherAccountNumber string    `json:"otherAccountNumber"`
-	Amount             float64   `json:"amount"`
-	Text               string    `json:"text"`
-	TransactionType    string    `json:"transactionType"`
-	RegistrationDate   time.Time `json:"registrationDate"`
-	AccountingDate     time.Time `json:"accountingDate"`
-	InterestDate       time.Time `json:"interestDate"`
-}
-
-// Constructor for TransactionRepository
-func NewTransactionRepository(config Config) *TransactionsRepository {
-	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &TransactionsRepository{common.Repository{Url: config.TransactionsEndpoint, Client: client.NewSbankenClient(&token)}}
+	TransactionId      string    `json:"transactionId,omitempty"`
+	CustomerId         string    `json:"customerId,omitempty"`
+	AccountNumber      string    `json:"accountNumber,omitempty"`
+	OtherAccountNumber string    `json:"otherAccountNumber,omitempty"`
+	Amount             float64   `json:"amount,omitempty"`
+	Text               string    `json:"text,omitempty"`
+	TransactionType    string    `json:"transactionType,omitempty"`
+	RegistrationDate   time.Time `json:"registrationDate,omitempty"`
+	AccountingDate     time.Time `json:"accountingDate,omitempty"`
+	InterestDate       time.Time `json:"interestDate,omitempty"`
 }
 
 // Gets transactions for a specified account
-func (tr *TransactionsRepository) GetTransactions(customerId string, request TransactionRequest) ([]Transaction, error) {
+func (ts *TransactionService) GetTransactions(customerId string, request TransactionRequest) ([]Transaction, error) {
 	queryParams := map[string]string{
 		"index":     strconv.Itoa(request.StartIndex),
 		"length":    strconv.Itoa(request.Lenght),
@@ -56,7 +45,7 @@ func (tr *TransactionsRepository) GetTransactions(customerId string, request Tra
 		"endDate":   request.EndDate.Format(time.RFC3339),
 	}
 
-	response, err := tr.Client.Get(tr.Url+customerId+"/"+request.AccountNumber, queryParams)
+	response, err := ts.client.Get(ts.client.config.TransactionsEndpoint+customerId+"/"+request.AccountNumber, queryParams)
 	defer response.Body.Close()
 	if err != nil {
 		return []Transaction{}, err

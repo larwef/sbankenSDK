@@ -6,47 +6,36 @@ package sbankenSDK
 import (
 	"encoding/json"
 	"errors"
-	"github.com/larwef/sbankenSDK/authentication"
-	"github.com/larwef/sbankenSDK/client"
-	"github.com/larwef/sbankenSDK/common"
 )
 
-type AccountsRepository struct {
-	common.Repository
-}
+type AccountService service
 
 type accountsResponse struct {
-	AvailableItems int       `json:"availableItems"`
-	Items          []Account `json:"items"`
-	common.Error
+	AvailableItems int       `json:"availableItems,omitempty"`
+	Items          []Account `json:"items,omitempty"`
+	sbankenError
 }
 
 type accountResponse struct {
-	Item Account `json:"item"`
-	common.Error
+	Item Account `json:"item,omitempty"`
+	sbankenError
 }
 
 type Account struct {
-	AccountNumber   string  `json:"accountNumber"`
-	CustomerId      string  `json:"customerId"`
-	OwnerCustomerId string  `json:"ownerCustomerId"`
-	Name            string  `json:"name"`
-	AccountType     string  `json:"accountType"`
-	Available       float64 `json:"available"`
-	Balance         float64 `json:"balance"`
-	CreditLimit     float64 `json:"creditLimit"`
-	DefaultAccount  bool    `json:"defaultAccount"`
-}
-
-// Constructor for AccountRepository
-func NewAccountRepository(config Config) *AccountsRepository {
-	token := authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
-	return &AccountsRepository{common.Repository{Url: config.AccountsEndpoint, Client: client.NewSbankenClient(&token)}}
+	AccountNumber   string  `json:"accountNumber,omitempty"`
+	CustomerId      string  `json:"customerId,omitempty"`
+	OwnerCustomerId string  `json:"ownerCustomerId,omitempty"`
+	Name            string  `json:"name,omitempty"`
+	AccountType     string  `json:"accountType,omitempty"`
+	Available       float64 `json:"available,omitempty"`
+	Balance         float64 `json:"balance,omitempty"`
+	CreditLimit     float64 `json:"creditLimit,omitempty"`
+	DefaultAccount  bool    `json:"defaultAccount,omitempty"`
 }
 
 // Gets all accounts for user.
-func (ar *AccountsRepository) GetAccounts(customerId string) ([]Account, error) {
-	response, err := ar.Client.Get(ar.Url+customerId, nil)
+func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
+	response, err := as.client.Get(as.client.config.AccountsEndpoint+customerId, nil)
 	defer response.Body.Close()
 	if err != nil {
 		return []Account{}, err
@@ -62,8 +51,8 @@ func (ar *AccountsRepository) GetAccounts(customerId string) ([]Account, error) 
 }
 
 // Gets information about a specified account.
-func (ar *AccountsRepository) GetAccount(customerId string, accountNumber string) (Account, error) {
-	response, err := ar.Client.Get(ar.Url+customerId+"/"+accountNumber, nil)
+func (as *AccountService) GetAccount(customerId string, accountNumber string) (Account, error) {
+	response, err := as.client.Get(as.client.config.AccountsEndpoint+customerId+"/"+accountNumber, nil)
 	defer response.Body.Close()
 	if err != nil {
 		return Account{}, err

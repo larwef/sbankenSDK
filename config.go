@@ -8,13 +8,13 @@ import (
 )
 
 type Config struct {
-	CustomerId           string `json:"customerId"`
-	ClientId             string `json:"clientId"`
-	ClientSecret         string `json:"clientSecret"`
-	IdentityServer       string `json:"identityServer"`
-	AccountsEndpoint     string `json:"accountsEndpoint"`
-	TransactionsEndpoint string `json:"transactionsEndpoint"`
-	TransfersEndpoint    string `json:"transfersEndpoint"`
+	CustomerId           string `json:"customerId,omitempty"`
+	ClientId             string `json:"clientId,omitempty"`
+	ClientSecret         string `json:"clientSecret,omitempty"`
+	IdentityServer       string `json:"identityServer,omitempty"`
+	AccountsEndpoint     string `json:"accountsEndpoint,omitempty"`
+	TransactionsEndpoint string `json:"transactionsEndpoint,omitempty"`
+	TransfersEndpoint    string `json:"transfersEndpoint,omitempty"`
 }
 
 // Retrieves config from .json file

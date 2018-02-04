@@ -86,6 +86,10 @@ func (c *Client) getRequest(url string, method string, queryParams map[string]st
 
 func (c *Client) do(req *http.Request, responseObj interface{}) (*http.Response, error) {
 	resp, err := c.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
 	defer resp.Body.Close()
 
 	if responseObj != nil {

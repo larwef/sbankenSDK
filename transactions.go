@@ -1,7 +1,6 @@
 package sbankenSDK
 
 import (
-	"encoding/json"
 	"errors"
 	"strconv"
 	"time"
@@ -45,14 +44,13 @@ func (ts *TransactionService) GetTransactions(customerId string, request Transac
 		"endDate":   request.EndDate.Format(time.RFC3339),
 	}
 
-	response, err := ts.client.Get(ts.client.config.TransactionsEndpoint+customerId+"/"+request.AccountNumber, queryParams)
+	var transactionsRsp transactionsResponse
+	response, err := ts.client.get(ts.client.config.TransactionsEndpoint+customerId+"/"+request.AccountNumber, queryParams, &transactionsRsp)
 	defer response.Body.Close()
 	if err != nil {
 		return []Transaction{}, err
 	}
 
-	var transactionsRsp transactionsResponse
-	err = json.NewDecoder(response.Body).Decode(&transactionsRsp)
 	if transactionsRsp.IsError == true {
 		return transactionsRsp.Items, errors.New(transactionsRsp.ErrorMessage)
 	}

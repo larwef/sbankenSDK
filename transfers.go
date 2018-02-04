@@ -1,8 +1,6 @@
 package sbankenSDK
 
 import (
-	"bytes"
-	"encoding/json"
 	"errors"
 )
 
@@ -21,19 +19,9 @@ type TranferRequest struct {
 
 // Transfer funds from one account to another
 func (ts *TransferService) Transfer(customerId string, transferRequest TranferRequest) error {
-	payload, err := json.Marshal(transferRequest)
-	if err != nil {
-		return err
-	}
-
-	response, err := ts.client.Post(ts.client.config.TransfersEndpoint+customerId, nil, bytes.NewBuffer(payload))
-	defer response.Body.Close()
-	if err != nil {
-		return err
-	}
-
 	var transferRsp transferResponse
-	err = json.NewDecoder(response.Body).Decode(&transferRsp)
+	_, err := ts.client.post(ts.client.config.TransfersEndpoint+customerId, nil, transferRequest, &transferRsp)
+
 	if transferRsp.IsError == true {
 		return errors.New(transferRsp.ErrorMessage)
 	}

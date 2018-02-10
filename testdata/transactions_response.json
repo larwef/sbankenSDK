@@ -1,0 +1,69 @@
+{
+  "availableItems": 5,
+  "items": [
+    {
+      "transactionId": "transaction1",
+      "customerId": "customerId",
+      "accountNumber": "account1",
+      "otherAccountNumber": null,
+      "amount": -5.06,
+      "text": "USD 0.64 Amazon web services Kurs: 7.9063",
+      "transactionType": "RK",
+      "registrationDate": null,
+      "accountingDate": "2018-02-06T00:00:00+01:00",
+      "interestDate": "2018-02-06T00:00:00+01:00"
+    },
+    {
+      "transactionId": "transaction2",
+      "customerId": "customerId",
+      "accountNumber": "account1",
+      "otherAccountNumber": null,
+      "amount": -100,
+      "text": "SomeTest",
+      "transactionType": "RKI",
+      "registrationDate": null,
+      "accountingDate": "2018-02-05T00:00:00+01:00",
+      "interestDate": "2018-02-04T00:00:00+01:00"
+    },
+    {
+      "transactionId": "transaction3",
+      "customerId": "customerId",
+      "accountNumber": "account1",
+      "otherAccountNumber": null,
+      "amount": -100,
+      "text": "Til Spar",
+      "transactionType": "RKI",
+      "registrationDate": null,
+      "accountingDate": "2018-02-05T00:00:00+01:00",
+      "interestDate": "2018-02-04T00:00:00+01:00"
+    },
+    {
+      "transactionId": "transaction4",
+      "customerId": "customerId",
+      "accountNumber": "account1",
+      "otherAccountNumber": null,
+      "amount": 100,
+      "text": "Til Bruk",
+      "transactionType": "RKI",
+      "registrationDate": null,
+      "accountingDate": "2018-02-05T00:00:00+01:00",
+      "interestDate": "2018-02-04T00:00:00+01:00"
+    },
+    {
+      "transactionId": "transaction5",
+      "customerId": "customerId",
+      "accountNumber": "account1",
+      "otherAccountNumber": null,
+      "amount": -50,
+      "text": "Teeeeeeeeeeest",
+      "transactionType": "RKI",
+      "registrationDate": null,
+      "accountingDate": "2018-02-05T00:00:00+01:00",
+      "interestDate": "2018-02-04T00:00:00+01:00"
+    }
+  ],
+  "errorType": null,
+  "isError": false,
+  "errorMessage": null,
+  "traceId": null
+}

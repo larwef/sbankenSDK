@@ -21,7 +21,7 @@ type Client struct {
 	Transfers    *TransferService
 }
 
-func NewClient(httpClient *http.Client, config Config) (*Client) {
+func NewClient(httpClient *http.Client, config Config, token authentication.SbankenToken) (*Client) {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
@@ -29,7 +29,7 @@ func NewClient(httpClient *http.Client, config Config) (*Client) {
 	c := &Client{client: httpClient, config: config}
 
 	c.common.client = c
-	c.token = authentication.NewSbankenToken(config.IdentityServer, config.ClientId, config.ClientSecret)
+	c.token = token
 	c.Accounts = (*AccountService)(&c.common)
 	c.Transactions = (*TransactionService)(&c.common)
 	c.Transfers = (*TransferService)(&c.common)

@@ -1,0 +1,5 @@
+{
+  "access_token": "tokenMock",
+  "expires_in": 3600,
+  "token_type": "Bearer"
+}

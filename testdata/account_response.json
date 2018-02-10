@@ -1,0 +1,17 @@
+{
+  "item": {
+    "accountNumber": "account1",
+    "customerId": "customerId",
+    "ownerCustomerId": "customerId",
+    "name": "Brukskonto",
+    "accountType": "Standard account",
+    "available": 10389.51,
+    "balance": 10389.51,
+    "creditLimit": 0,
+    "defaultAccount": false
+  },
+  "errorType": null,
+  "isError": false,
+  "errorMessage": null,
+  "traceId": null
+}

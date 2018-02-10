@@ -1,0 +1,6 @@
+{
+  "errorType": 1,
+  "isError": true,
+  "errorMessage": "SomeErrorMessage",
+  "traceId": "traceId"
+}

@@ -1,12 +1,12 @@
 package sbankenSDK
 
 import (
-	"net/http/httptest"
-	"net/http"
-	"io/ioutil"
-	"testing"
 	"github.com/larwef/sbankenSDK/authentication"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
 	"reflect"
+	"testing"
 )
 
 // Returns a configured client for testing http calls. Handler function is set in test function
@@ -28,7 +28,7 @@ func setup() (client *Client, mux *http.ServeMux, teardown func()) {
 	return client, mux, server.Close
 }
 
-func getTestFileAsString(t *testing.T, filepath string) (string) {
+func getTestFileAsString(t *testing.T, filepath string) string {
 	b, err := ioutil.ReadFile(filepath)
 	if err != nil {
 		t.Fatal(err)

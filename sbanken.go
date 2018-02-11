@@ -1,11 +1,11 @@
 package sbankenSDK
 
 import (
-	"net/http"
+	"bytes"
+	"encoding/json"
 	"github.com/larwef/sbankenSDK/authentication"
 	"io"
-	"encoding/json"
-	"bytes"
+	"net/http"
 )
 
 // TODO: Use a client with authentication instead of token manually
@@ -21,7 +21,7 @@ type Client struct {
 	Transfers    *TransferService
 }
 
-func NewClient(httpClient *http.Client, config Config, token authentication.SbankenToken) (*Client) {
+func NewClient(httpClient *http.Client, config Config, token authentication.SbankenToken) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}

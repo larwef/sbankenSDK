@@ -10,7 +10,7 @@ type transferResponse struct {
 	sbankenError
 }
 
-type TranferRequest struct {
+type TransferRequest struct {
 	FromAccount string  `json:"fromAccount,omitempty"`
 	ToAccount   string  `json:"toAccount,omitempty"`
 	Amount      float64 `json:"amount,omitempty"`
@@ -18,7 +18,7 @@ type TranferRequest struct {
 }
 
 // Transfer funds from one account to another
-func (ts *TransferService) Transfer(customerId string, transferRequest TranferRequest) error {
+func (ts *TransferService) Transfer(customerId string, transferRequest TransferRequest) error {
 	var transferRsp transferResponse
 	_, err := ts.client.post(ts.client.config.TransfersEndpoint+customerId, nil, transferRequest, &transferRsp)
 

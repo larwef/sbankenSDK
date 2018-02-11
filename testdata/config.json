@@ -6,5 +6,4 @@
   "accountsEndpoint": "https://api.sbanken.no/bank/api/v1/Accounts/",
   "transactionsEndpoint": "https://api.sbanken.no/bank/api/v1/Transactions/",
   "transfersEndpoint": "https://api.sbanken.no/bank/api/v1/Transfers/"
-
 }

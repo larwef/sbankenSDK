@@ -1,9 +1,9 @@
 package sbankenSDK
 
 import (
-	"testing"
-	"net/http"
 	"fmt"
+	"net/http"
+	"testing"
 )
 
 func TestAccountService_GetAccounts(t *testing.T) {
@@ -11,7 +11,7 @@ func TestAccountService_GetAccounts(t *testing.T) {
 	defer teardown()
 
 	mux.HandleFunc("/customerId", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testHeader(t, r, "Accept", "application/json")
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/accounts_response.json"))
 	})
@@ -39,7 +39,7 @@ func TestAccountService_GetAccounts_WithError(t *testing.T) {
 	defer teardown()
 
 	mux.HandleFunc("/customerId", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testHeader(t, r, "Accept", "application/json")
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/error_response.json"))
 	})
@@ -54,7 +54,7 @@ func TestAccountService_GetAccount(t *testing.T) {
 	defer teardown()
 
 	mux.HandleFunc("/customerId/account1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testHeader(t, r, "Accept", "application/json")
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/account_response.json"))
 	})
@@ -71,7 +71,7 @@ func TestAccountService_GetAccount_WithError(t *testing.T) {
 	defer teardown()
 
 	mux.HandleFunc("/customerId/account1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testHeader(t, r, "Accept", "application/json")
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/error_response.json"))
 	})

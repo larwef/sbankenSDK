@@ -18,3 +18,28 @@ Example configuration:
     "transfersEndpoint": "https://api.sbanken.no/bank/api/v1/Transfers/"
 }
 ```
+
+### How to create a http.Client with Oauth
+Note that the Sbanken token endpoint expects basic auth to be coded like `base64(clientId:clientSecret)` while the oauth2 library encodes it like `base64(urlEncode(cliendId):urlEncode(clientSecret))`. This means you wil have to request passwords until you get one without conflicting characters. E.g. ?, =, &
+```
+import (
+    "golang.org/x/oauth2/clientcredentials"
+    "golang.org/x/net/context"
+    "github.com/larwef/sbankenSDK"
+)
+
+func main() {
+    config := sbankenSDK.ConfigFromFile("./config.json")
+    
+    oauthConfig := clientcredentials.Config{
+        ClientID:     config.ClientId,
+        ClientSecret: config.ClientSecret,
+        TokenURL:     config.IdentityServer,
+        Scopes:       []string{},
+    }
+    
+    oauthClient := oauthConfig.Client(context.Background())
+    
+    sbankenClient := sbankenSDK.NewClient(oauthClient, config)
+}
+```

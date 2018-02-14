@@ -3,16 +3,13 @@ package sbankenSDK
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/larwef/sbankenSDK/authentication"
 	"io"
 	"net/http"
 )
 
-// TODO: Use a client with authentication instead of token manually
 type Client struct {
 	client *http.Client
 	config Config
-	token  authentication.SbankenToken
 
 	common service
 
@@ -21,7 +18,7 @@ type Client struct {
 	Transfers    *TransferService
 }
 
-func NewClient(httpClient *http.Client, config Config, token authentication.SbankenToken) *Client {
+func NewClient(httpClient *http.Client, config Config) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
@@ -29,7 +26,6 @@ func NewClient(httpClient *http.Client, config Config, token authentication.Sban
 	c := &Client{client: httpClient, config: config}
 
 	c.common.client = c
-	c.token = token
 	c.Accounts = (*AccountService)(&c.common)
 	c.Transactions = (*TransactionService)(&c.common)
 	c.Transfers = (*TransferService)(&c.common)
@@ -71,9 +67,7 @@ func (c *Client) getRequest(url string, method string, queryParams map[string]st
 		return request, err
 	}
 
-	// TODO: refresh token when close to expiration or expired or see todo in top
 	request.Header.Add("Accept", "application/json")
-	request.Header.Add("Authorization", c.token.GetTokenType()+" "+c.token.GetTokenString())
 
 	query := request.URL.Query()
 	for key, value := range queryParams {

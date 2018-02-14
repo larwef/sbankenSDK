@@ -1,7 +1,6 @@
 package sbankenSDK
 
 import (
-	"github.com/larwef/sbankenSDK/authentication"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -23,7 +22,7 @@ func setup() (client *Client, mux *http.ServeMux, teardown func()) {
 		TransactionsEndpoint: server.URL + "/",
 		TransfersEndpoint:    server.URL + "/",
 	}
-	client = NewClient(&http.Client{}, config, authentication.SbankenToken{})
+	client = NewClient(&http.Client{}, config)
 
 	return client, mux, server.Close
 }

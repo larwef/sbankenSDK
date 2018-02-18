@@ -9,8 +9,8 @@ import (
 type TransactionService service
 
 type transactionsResponse struct {
-	AvailableItems int           `json:"availableItems,omitempty"`
-	Items          []Transaction `json:"items,omitempty"`
+	AvailableItems *int           `json:"availableItems,omitempty"`
+	Items          *[]Transaction `json:"items,omitempty"`
 	sbankenError
 }
 
@@ -23,16 +23,16 @@ type TransactionRequest struct {
 }
 
 type Transaction struct {
-	TransactionId      string    `json:"transactionId,omitempty"`
-	CustomerId         string    `json:"customerId,omitempty"`
-	AccountNumber      string    `json:"accountNumber,omitempty"`
-	OtherAccountNumber string    `json:"otherAccountNumber,omitempty"`
-	Amount             float64   `json:"amount,omitempty"`
-	Text               string    `json:"text,omitempty"`
-	TransactionType    string    `json:"transactionType,omitempty"`
-	RegistrationDate   time.Time `json:"registrationDate,omitempty"`
-	AccountingDate     time.Time `json:"accountingDate,omitempty"`
-	InterestDate       time.Time `json:"interestDate,omitempty"`
+	TransactionId      *string    `json:"transactionId,omitempty"`
+	CustomerId         *string    `json:"customerId,omitempty"`
+	AccountNumber      *string    `json:"accountNumber,omitempty"`
+	OtherAccountNumber *string    `json:"otherAccountNumber,omitempty"`
+	Amount             *float64   `json:"amount,omitempty"`
+	Text               *string    `json:"text,omitempty"`
+	TransactionType    *string    `json:"transactionType,omitempty"`
+	RegistrationDate   *time.Time `json:"registrationDate,omitempty"`
+	AccountingDate     *time.Time `json:"accountingDate,omitempty"`
+	InterestDate       *time.Time `json:"interestDate,omitempty"`
 }
 
 // Gets transactions for a specified account
@@ -45,15 +45,15 @@ func (ts *TransactionService) GetTransactions(customerId string, request Transac
 	}
 
 	var transactionsRsp transactionsResponse
-	response, err := ts.client.get(ts.client.config.TransactionsEndpoint+customerId+"/"+request.AccountNumber, queryParams, &transactionsRsp)
+	response, err := ts.client.get(*ts.client.config.TransactionsEndpoint+customerId+"/"+request.AccountNumber, queryParams, &transactionsRsp)
 	defer response.Body.Close()
 	if err != nil {
 		return []Transaction{}, err
 	}
 
-	if transactionsRsp.IsError == true {
-		return transactionsRsp.Items, errors.New(transactionsRsp.ErrorMessage)
+	if *transactionsRsp.IsError == true {
+		return []Transaction{}, errors.New(*transactionsRsp.ErrorMessage)
 	}
 
-	return transactionsRsp.Items, err
+	return *transactionsRsp.Items, err
 }

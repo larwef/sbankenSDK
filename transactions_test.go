@@ -37,23 +37,23 @@ func TestTransactionService_GetTransactions(t *testing.T) {
 
 	assertEqual(t, len(transactions), 5)
 
-	assertEqual(t, transactions[0].TransactionId, "transaction1")
-	assertEqual(t, transactions[0].CustomerId, "customerId")
-	assertEqual(t, transactions[0].AccountNumber, "account1")
-	assertEqual(t, transactions[0].Amount, -5.06)
-	assertEqual(t, transactions[0].Text, "USD 0.64 Amazon web services Kurs: 7.9063")
+	assertEqual(t, *transactions[0].TransactionId, "transaction1")
+	assertEqual(t, *transactions[0].CustomerId, "customerId")
+	assertEqual(t, *transactions[0].AccountNumber, "account1")
+	assertEqual(t, *transactions[0].Amount, -5.06)
+	assertEqual(t, *transactions[0].Text, "USD 0.64 Amazon web services Kurs: 7.9063")
 
-	assertEqual(t, transactions[1].TransactionId, "transaction2")
-	assertEqual(t, transactions[1].CustomerId, "customerId")
-	assertEqual(t, transactions[1].AccountNumber, "account1")
-	assertEqual(t, transactions[1].Amount, -100.0)
-	assertEqual(t, transactions[1].Text, "SomeTest")
+	assertEqual(t, *transactions[1].TransactionId, "transaction2")
+	assertEqual(t, *transactions[1].CustomerId, "customerId")
+	assertEqual(t, *transactions[1].AccountNumber, "account1")
+	assertEqual(t, *transactions[1].Amount, -100.0)
+	assertEqual(t, *transactions[1].Text, "SomeTest")
 
-	assertEqual(t, transactions[3].TransactionId, "transaction4")
-	assertEqual(t, transactions[3].CustomerId, "customerId")
-	assertEqual(t, transactions[3].AccountNumber, "account1")
-	assertEqual(t, transactions[3].Amount, 100.0)
-	assertEqual(t, transactions[3].Text, "Til Bruk")
+	assertEqual(t, *transactions[3].TransactionId, "transaction4")
+	assertEqual(t, *transactions[3].CustomerId, "customerId")
+	assertEqual(t, *transactions[3].AccountNumber, "account1")
+	assertEqual(t, *transactions[3].Amount, 100.0)
+	assertEqual(t, *transactions[3].Text, "Til Bruk")
 }
 
 func TestTransactionService_GetTransactions_WithError(t *testing.T) {

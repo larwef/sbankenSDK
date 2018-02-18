@@ -21,17 +21,17 @@ func TestAccountService_GetAccounts(t *testing.T) {
 
 	assertEqual(t, len(accounts), 4)
 
-	assertEqual(t, accounts[0].CustomerId, "customerId")
-	assertEqual(t, accounts[0].AccountNumber, "account1")
+	assertEqual(t, *accounts[0].CustomerId, "customerId")
+	assertEqual(t, *accounts[0].AccountNumber, "account1")
 
-	assertEqual(t, accounts[1].CustomerId, "customerId")
-	assertEqual(t, accounts[1].AccountNumber, "account2")
+	assertEqual(t, *accounts[1].CustomerId, "customerId")
+	assertEqual(t, *accounts[1].AccountNumber, "account2")
 
-	assertEqual(t, accounts[2].CustomerId, "customerId")
-	assertEqual(t, accounts[2].AccountNumber, "account3")
+	assertEqual(t, *accounts[2].CustomerId, "customerId")
+	assertEqual(t, *accounts[2].AccountNumber, "account3")
 
-	assertEqual(t, accounts[3].CustomerId, "customerId")
-	assertEqual(t, accounts[3].AccountNumber, "account4")
+	assertEqual(t, *accounts[3].CustomerId, "customerId")
+	assertEqual(t, *accounts[3].AccountNumber, "account4")
 }
 
 func TestAccountService_GetAccounts_WithError(t *testing.T) {
@@ -61,9 +61,9 @@ func TestAccountService_GetAccount(t *testing.T) {
 
 	account, err := client.Accounts.GetAccount("customerId", "account1")
 	assertNotError(t, err)
-	assertEqual(t, account.CustomerId, "customerId")
-	assertEqual(t, account.AccountNumber, "account1")
-	assertEqual(t, account.Available, 10389.51)
+	assertEqual(t, *account.CustomerId, "customerId")
+	assertEqual(t, *account.AccountNumber, "account1")
+	assertEqual(t, *account.Available, 10389.51)
 }
 
 func TestAccountService_GetAccount_WithError(t *testing.T) {

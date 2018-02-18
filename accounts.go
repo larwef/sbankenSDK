@@ -8,8 +8,8 @@ import "errors"
 type AccountService service
 
 type accountsResponse struct {
-	AvailableItems *int       `json:"availableItems,omitempty"`
-	Items          *[]Account `json:"items,omitempty"`
+	AvailableItems *int      `json:"availableItems,omitempty"`
+	Items          []Account `json:"items,omitempty"`
 	sbankenError
 }
 
@@ -39,7 +39,7 @@ func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
 		return nil, errors.New(*accountsRsp.ErrorMessage)
 	}
 
-	return *accountsRsp.Items, err
+	return accountsRsp.Items, err
 }
 
 // Gets information about a specified account.

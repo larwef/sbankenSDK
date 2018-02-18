@@ -9,8 +9,8 @@ import (
 type TransactionService service
 
 type transactionsResponse struct {
-	AvailableItems *int           `json:"availableItems,omitempty"`
-	Items          *[]Transaction `json:"items,omitempty"`
+	AvailableItems *int          `json:"availableItems,omitempty"`
+	Items          []Transaction `json:"items,omitempty"`
 	sbankenError
 }
 
@@ -55,5 +55,5 @@ func (ts *TransactionService) GetTransactions(customerId string, request Transac
 		return []Transaction{}, errors.New(*transactionsRsp.ErrorMessage)
 	}
 
-	return *transactionsRsp.Items, err
+	return transactionsRsp.Items, err
 }

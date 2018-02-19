@@ -17,11 +17,11 @@ const (
 func TestConfigFromFile(t *testing.T) {
 	config := ConfigFromFile("testdata/config.json")
 
-	assertEqual(t, *config.CustomerId, customerId)
-	assertEqual(t, *config.IdentityServer, identityServer)
-	assertEqual(t, *config.ClientId, clientId)
-	assertEqual(t, *config.ClientSecret, clientSecret)
-	assertEqual(t, *config.AccountsEndpoint, accountsEndpoint)
-	assertEqual(t, *config.TransactionsEndpoint, transactionsEndpoint)
-	assertEqual(t, *config.TransfersEndpoint, transfersEndpoint)
+	assertEqual(t, config.CustomerId, customerId)
+	assertEqual(t, config.IdentityServer, identityServer)
+	assertEqual(t, config.ClientId, clientId)
+	assertEqual(t, config.ClientSecret, clientSecret)
+	assertEqual(t, config.AccountsEndpoint, accountsEndpoint)
+	assertEqual(t, config.TransactionsEndpoint, transactionsEndpoint)
+	assertEqual(t, config.TransfersEndpoint, transfersEndpoint)
 }

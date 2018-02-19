@@ -17,14 +17,10 @@ func setup() (client *Client, mux *http.ServeMux, teardown func()) {
 
 	server := httptest.NewServer(apiHandler)
 
-	accountsEndpoint := server.URL + "/"
-	transactionsEndpoint := server.URL + "/"
-	transfersEndpoint := server.URL + "/"
-
 	config := Config{
-		AccountsEndpoint:     &accountsEndpoint,
-		TransactionsEndpoint: &transactionsEndpoint,
-		TransfersEndpoint:    &transfersEndpoint,
+		AccountsEndpoint:     server.URL + "/",
+		TransactionsEndpoint: server.URL + "/",
+		TransfersEndpoint:    server.URL + "/",
 	}
 	client = NewClient(&http.Client{}, config)
 

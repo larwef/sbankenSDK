@@ -45,7 +45,7 @@ func (ts *TransactionService) GetTransactions(customerId string, request Transac
 	}
 
 	var transactionsRsp transactionsResponse
-	response, err := ts.client.get(*ts.client.config.TransactionsEndpoint+customerId+"/"+request.AccountNumber, queryParams, &transactionsRsp)
+	response, err := ts.client.get(ts.client.config.TransactionsEndpoint+customerId+"/"+request.AccountNumber, queryParams, &transactionsRsp)
 	defer response.Body.Close()
 	if err != nil {
 		return []Transaction{}, err

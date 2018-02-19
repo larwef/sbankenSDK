@@ -33,7 +33,7 @@ type Account struct {
 // Gets all accounts for user.
 func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
 	var accountsRsp accountsResponse
-	_, err := as.client.get(*as.client.config.AccountsEndpoint+customerId, nil, &accountsRsp)
+	_, err := as.client.get(as.client.config.AccountsEndpoint+customerId, nil, &accountsRsp)
 
 	if *accountsRsp.IsError == true {
 		return nil, errors.New(*accountsRsp.ErrorMessage)
@@ -45,7 +45,7 @@ func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
 // Gets information about a specified account.
 func (as *AccountService) GetAccount(customerId string, accountNumber string) (Account, error) {
 	var accountRsp accountResponse
-	_, err := as.client.get(*as.client.config.AccountsEndpoint+customerId+"/"+accountNumber, nil, &accountRsp)
+	_, err := as.client.get(as.client.config.AccountsEndpoint+customerId+"/"+accountNumber, nil, &accountRsp)
 
 	if *accountRsp.IsError == true {
 		return Account{}, errors.New(*accountRsp.ErrorMessage)

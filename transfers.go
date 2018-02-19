@@ -20,7 +20,7 @@ type TransferRequest struct {
 // Transfer funds from one account to another
 func (ts *TransferService) Transfer(customerId string, transferRequest TransferRequest) error {
 	var transferRsp transferResponse
-	_, err := ts.client.post(*ts.client.config.TransfersEndpoint+customerId, nil, transferRequest, &transferRsp)
+	_, err := ts.client.post(ts.client.config.TransfersEndpoint+customerId, nil, transferRequest, &transferRsp)
 
 	if *transferRsp.IsError == true {
 		return errors.New(*transferRsp.ErrorMessage)

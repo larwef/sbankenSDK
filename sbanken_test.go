@@ -58,3 +58,9 @@ func assertEqual(t *testing.T, actual interface{}, expected interface{}) {
 		t.Errorf("Expected %v %v to be equal to %v %v", reflect.TypeOf(actual).Name(), actual, reflect.TypeOf(expected).Name(), expected)
 	}
 }
+
+func assertIsSetAndNotNull(t *testing.T, isSet bool, isNull bool) {
+	if !isSet || isNull {
+		t.Errorf("Is set and not null asserion failed: isSet = %t, isNull =%t", isSet, isNull)
+	}
+}

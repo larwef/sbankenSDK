@@ -21,17 +21,35 @@ func TestAccountService_GetAccounts(t *testing.T) {
 
 	assertEqual(t, len(accounts), 4)
 
-	assertEqual(t, *accounts[0].CustomerId, "customerId")
-	assertEqual(t, *accounts[0].AccountNumber, "account1")
+	var val interface{}
+	var isSet, isNull bool
+	val, isSet, isNull = accounts[0].GetCustomerId()
+	assertEqual(t, val, "customerId")
+	assertIsSetAndNotNull(t, isSet, isNull)
+	val, isSet, isNull = accounts[0].GetAccountNumber()
+	assertEqual(t, val, "account1")
+	assertIsSetAndNotNull(t, isSet, isNull)
 
-	assertEqual(t, *accounts[1].CustomerId, "customerId")
-	assertEqual(t, *accounts[1].AccountNumber, "account2")
+	val, isSet, isNull = accounts[1].GetCustomerId()
+	assertEqual(t, val, "customerId")
+	assertIsSetAndNotNull(t, isSet, isNull)
+	val, isSet, isNull = accounts[1].GetAccountNumber()
+	assertEqual(t, val, "account2")
+	assertIsSetAndNotNull(t, isSet, isNull)
 
-	assertEqual(t, *accounts[2].CustomerId, "customerId")
-	assertEqual(t, *accounts[2].AccountNumber, "account3")
+	val, isSet, isNull = accounts[2].GetCustomerId()
+	assertEqual(t, val, "customerId")
+	assertIsSetAndNotNull(t, isSet, isNull)
+	val, isSet, isNull = accounts[2].GetAccountNumber()
+	assertEqual(t, val, "account3")
+	assertIsSetAndNotNull(t, isSet, isNull)
 
-	assertEqual(t, *accounts[3].CustomerId, "customerId")
-	assertEqual(t, *accounts[3].AccountNumber, "account4")
+	val, isSet, isNull = accounts[3].GetCustomerId()
+	assertEqual(t, val, "customerId")
+	assertIsSetAndNotNull(t, isSet, isNull)
+	val, isSet, isNull = accounts[3].GetAccountNumber()
+	assertEqual(t, val, "account4")
+	assertIsSetAndNotNull(t, isSet, isNull)
 }
 
 func TestAccountService_GetAccounts_WithError(t *testing.T) {
@@ -61,9 +79,17 @@ func TestAccountService_GetAccount(t *testing.T) {
 
 	account, err := client.Accounts.GetAccount("customerId", "account1")
 	assertNotError(t, err)
-	assertEqual(t, *account.CustomerId, "customerId")
-	assertEqual(t, *account.AccountNumber, "account1")
-	assertEqual(t, *account.Available, 10389.51)
+	var val interface{}
+	var isSet, isNull bool
+	val, isSet, isNull = account.GetCustomerId()
+	assertEqual(t, val, "customerId")
+	assertIsSetAndNotNull(t, isSet, isNull)
+	val, isSet, isNull = account.GetAccountNumber()
+	assertEqual(t, val, "account1")
+	assertIsSetAndNotNull(t, isSet, isNull)
+	val, isSet, isNull = account.GetAvailable()
+	assertEqual(t, val, 10389.51)
+	assertIsSetAndNotNull(t, isSet, isNull)
 }
 
 func TestAccountService_GetAccount_WithError(t *testing.T) {

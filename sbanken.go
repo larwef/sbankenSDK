@@ -1,3 +1,6 @@
+// Implements Accounts, Transaction and Transfer.
+//
+// API-documentation: https://api.sbanken.no/Bank/swagger/index.html
 package sbankenSDK
 
 import (

@@ -3,13 +3,34 @@ package sbankenSDK
 import (
 	"fmt"
 	"errors"
+	"time"
 )
 
 const (
-	ERROR_TYPE    = "errorType"
-	IS_ERROR      = "isError"
-	ERROR_MESSAGE = "errorMessage"
-	TRACE_ID      = "traceId"
+	AVAILABLE_ITEMS      = "availableItems"
+	ITEMS                = "items"
+	ITEM                 = "item"
+	OTHER_ACCOUNT_NUMBER = "otherAccountNumber"
+	AMOUNT               = "amount"
+	TEXT                 = "text"
+	TRANSACTION_TYPE     = "transactionType"
+	REGISTRATION_DATE    = "registrationDate"
+	ACCOUNTING_DATE      = "accountingDate"
+	INTEREST_DATE        = "interestDate"
+	ACCOUNT_NUMBER       = "accountNumber"
+	TRANSACTION_ID       = "transactionId"
+	CUSTOMER_ID          = "customerId"
+	OWNER_CUSTOMER_ID    = "ownerCustomerId"
+	NAME                 = "name"
+	ACCOUNT_TYPE         = "accountType"
+	AVAILABLE            = "available"
+	BALANCE              = "balance"
+	CREDIT_LIMIT         = "creditLimit"
+	DEFAULT_ACCOUNT      = "defaultAccount"
+	ERROR_TYPE           = "errorType"
+	IS_ERROR             = "isError"
+	ERROR_MESSAGE        = "errorMessage"
+	TRACE_ID             = "traceId"
 )
 
 type entity struct {
@@ -25,7 +46,7 @@ func (ar response) getError() (error) {
 	}
 
 	if isError.(bool) {
-		errorMessage, err:= getRequiredProperty(ERROR_MESSAGE, ar.properties)
+		errorMessage, err := getRequiredProperty(ERROR_MESSAGE, ar.properties)
 		if err != nil {
 			return err
 		}
@@ -66,6 +87,16 @@ func getBool(key string, m map[string]interface{}) (val bool, isSet bool, isNull
 	return
 }
 
+func getTime(key string, m map[string]interface{}) (time.Time, bool, bool) {
+	v, isSet, isNull := getInterface(key, m)
+	if isSet && !isNull {
+		if val, err := time.Parse(time.RFC3339, v.(string)); err != nil {
+			return val, isSet, isNull
+		}
+	}
+	return time.Time{}, isSet, isNull
+}
+
 func getInterfaceArray(key string, m map[string]interface{}) (val []interface{}, isSet bool, isNull bool) {
 	var v interface{}
 	if v, isSet, isNull = getInterface(key, m); isSet && !isNull {
@@ -84,7 +115,7 @@ func getInterface(key string, m map[string]interface{}) (val interface{}, isSet 
 func getRequiredProperty(key string, m map[string]interface{}) (interface{}, error) {
 	val, isSet, isNull := getInterface(key, m)
 	if !isSet || isNull {
-		return nil, fmt.Errorf("%s is either missing or null. isSet: %t, isNull: %t", key, isSet, isNull)
+		return nil, fmt.Errorf("[%s] is either missing or null. isSet: %t, isNull: %t", key, isSet, isNull)
 	}
 	return val, nil
 }

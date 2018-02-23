@@ -1,37 +1,22 @@
 package sbankenSDK
 
-import (
-	"encoding/json"
-)
-
-const (
-	AVAILABLE_ITEMS = "availableItems"
-	ITEMS           = "items"
-	ITEM            = "item"
-
-	ACCOUNT_NUMBER    = "accountNumber"
-	CUSTOMER_ID       = "customerId"
-	OWNER_CUSTOMER_ID = "ownerCustomerId"
-	NAME              = "name"
-	ACCOUNT_TYPE      = "accountType"
-	AVAILABLE         = "available"
-	BALANCE           = "balance"
-	CREDIT_LIMIT      = "creditLimit"
-	DEFAULT_ACCOUNT   = "defaultAccount"
-)
-
 type AccountService service
 
 type Account entity
 
 // Gets all accounts for user.
 func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
-	response, err := as.getResponse(as.client.config.AccountsEndpoint + customerId)
+	var accountRsp response
+	_, err := as.client.get(as.client.config.AccountsEndpoint+customerId, nil, &accountRsp.properties)
 	if err != nil {
 		return nil, err
 	}
 
-	items, err := getRequiredProperty(ITEMS, response.properties)
+	if err := accountRsp.getError(); err != nil {
+		return nil, err
+	}
+
+	items, err := getRequiredProperty(ITEMS, accountRsp.properties)
 	if err != nil {
 		return nil, err
 	}
@@ -46,31 +31,22 @@ func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
 
 // Gets information about a specified account.
 func (as *AccountService) GetAccount(customerId string, accountNumber string) (Account, error) {
-	response, err := as.getResponse(as.client.config.AccountsEndpoint + customerId + "/" + accountNumber)
-	if err != nil {
-		return Account{}, err
-	}
-
-	val, err := getRequiredProperty(ITEM, response.properties)
-	if err != nil {
-		return Account{}, err
-	}
-
-	return Account{properties: val.(map[string] interface{})}, err
-}
-
-func (as* AccountService) getResponse(url string) (response, error) {
 	var accountRsp response
-	_, err := as.client.get(url, nil, &accountRsp.properties)
+	_, err := as.client.get(as.client.config.AccountsEndpoint+customerId+"/"+accountNumber, nil, &accountRsp.properties)
 	if err != nil {
-		return response{}, err
+		return Account{}, err
 	}
 
 	if err := accountRsp.getError(); err != nil {
-		return response{}, err
+		return Account{}, err
 	}
 
-	return accountRsp, nil
+	val, err := getRequiredProperty(ITEM, accountRsp.properties)
+	if err != nil {
+		return Account{}, err
+	}
+
+	return Account{properties: val.(map[string]interface{})}, err
 }
 
 func (a *Account) GetAccountNumber() (val string, isSet bool, isNull bool) {
@@ -107,8 +83,4 @@ func (a *Account) GetCreditLimit() (val float64, isSet bool, isNull bool) {
 
 func (a *Account) GetDefaultAccount() (val bool, isSet bool, isNull bool) {
 	return getBool(DEFAULT_ACCOUNT, a.properties)
-}
-
-func (a *Account) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &a.properties)
 }

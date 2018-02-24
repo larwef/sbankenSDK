@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
+	"io/ioutil"
+	"strings"
 )
 
 func TestTransferService_Transfer(t *testing.T) {
@@ -13,22 +15,22 @@ func TestTransferService_Transfer(t *testing.T) {
 	mux.HandleFunc("/customerId", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		testHeader(t, r, "Accept", "application/json")
+		body, _ := ioutil.ReadAll(r.Body)
+		payload := string(body)
+		strings.Contains(payload, "\"fromAccount\":\"account1\"")
+		strings.Contains(payload, "\"toAccount\":\"account2\"")
+		strings.Contains(payload, "\"amount\":100")
+		strings.Contains(payload, "\"message\":\"testMessage\"")
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/transactions_response.json"))
 	})
 
-	fromAccount := "accoutn1"
-	toAccount := "account2"
-	amount := 100.0
-	message := "testMessage"
+	request := NewTransferRequest().
+		WithFromAccount("account1").
+		WithToAccount("account2").
+		WithAmount(100).
+		WithMessage("testMessage")
 
-	request := TransferRequest{
-		FromAccount: &fromAccount,
-		ToAccount:   &toAccount,
-		Amount:      &amount,
-		Message:     &message,
-	}
-
-	err := client.Transfers.Transfer("customerId", request)
+	err := client.Transfers.Transfer("customerId", *request)
 	assertNotError(t, err)
 }
 

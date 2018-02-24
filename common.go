@@ -31,6 +31,9 @@ const (
 	IS_ERROR             = "isError"
 	ERROR_MESSAGE        = "errorMessage"
 	TRACE_ID             = "traceId"
+	FROM_ACCOUNT         = "fromAccount"
+	TO_ACCOUNT           = "toAccount"
+	MESSAGE              = "message"
 )
 
 type entity struct {

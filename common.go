@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Json fields
 const (
 	AVAILABLE_ITEMS      = "availableItems"
 	ITEMS                = "items"
@@ -42,7 +43,7 @@ type entity struct {
 
 type response entity
 
-func (ar response) getError() (error) {
+func (ar *response) getError() (error) {
 	isError, err := getRequiredProperty(IS_ERROR, ar.properties)
 	if err != nil {
 		return err

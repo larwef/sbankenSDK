@@ -19,23 +19,22 @@ type accountResponse struct {
 }
 
 type Account struct {
+	AccountId       *string  `json:"accountId,omitempty"`
 	AccountNumber   *string  `json:"accountNumber,omitempty"`
-	CustomerId      *string  `json:"customerId,omitempty"`
 	OwnerCustomerId *string  `json:"ownerCustomerId,omitempty"`
 	Name            *string  `json:"name,omitempty"`
 	AccountType     *string  `json:"accountType,omitempty"`
 	Available       *float64 `json:"available,omitempty"`
 	Balance         *float64 `json:"balance,omitempty"`
 	CreditLimit     *float64 `json:"creditLimit,omitempty"`
-	DefaultAccount  *bool    `json:"defaultAccount,omitempty"`
 }
 
 // Gets all accounts for user.
-func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
+func (as *AccountService) GetAccounts() ([]Account, error) {
 	var accountsRsp accountsResponse
-	_, err := as.client.get(as.client.config.AccountsEndpoint+customerId, nil, &accountsRsp)
+	_, err := as.client.get(as.client.config.AccountsEndpoint, nil, &accountsRsp)
 
-	if *accountsRsp.IsError == true {
+	if accountsRsp.IsError != nil && *accountsRsp.IsError == true {
 		return nil, errors.New(*accountsRsp.ErrorMessage)
 	}
 
@@ -43,9 +42,9 @@ func (as *AccountService) GetAccounts(customerId string) ([]Account, error) {
 }
 
 // Gets information about a specified account.
-func (as *AccountService) GetAccount(customerId string, accountNumber string) (Account, error) {
+func (as *AccountService) GetAccount(accountId string) (Account, error) {
 	var accountRsp accountResponse
-	_, err := as.client.get(as.client.config.AccountsEndpoint+customerId+"/"+accountNumber, nil, &accountRsp)
+	_, err := as.client.get(as.client.config.AccountsEndpoint+accountId, nil, &accountRsp)
 
 	if *accountRsp.IsError == true {
 		return Account{}, errors.New(*accountRsp.ErrorMessage)

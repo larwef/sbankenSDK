@@ -68,6 +68,7 @@ func (c *Client) getRequest(url string, method string, queryParams map[string]st
 	}
 
 	request.Header.Add("Accept", "application/json")
+	request.Header.Add("customerId", c.config.CustomerId)
 
 	query := request.URL.Query()
 	for key, value := range queryParams {

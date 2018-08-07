@@ -2,8 +2,8 @@
   "availableItems": 4,
   "items": [
     {
+      "accountId": "accountId1",
       "accountNumber": "account1",
-      "customerId": "customerId",
       "ownerCustomerId": "customerId",
       "name": "Brukskonto",
       "accountType": "Standard account",
@@ -13,8 +13,8 @@
       "defaultAccount": false
     },
     {
+      "accountId": "accountId2",
       "accountNumber": "account2",
-      "customerId": "customerId",
       "ownerCustomerId": "customerId",
       "name": "Sparekonto",
       "accountType": "Standard account",
@@ -24,8 +24,8 @@
       "defaultAccount": false
     },
     {
+      "accountId": "accountId3",
       "accountNumber": "account3",
-      "customerId": "customerId",
       "ownerCustomerId": "customerId",
       "name": "Felleskonto",
       "accountType": "Standard account",
@@ -35,8 +35,8 @@
       "defaultAccount": false
     },
     {
+      "accountId": "accountId4",
       "accountNumber": "account4",
-      "customerId": "customerId",
       "ownerCustomerId": "customerId",
       "name": "Høyrentekonto",
       "accountType": "High interest account",

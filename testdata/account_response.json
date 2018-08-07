@@ -1,7 +1,7 @@
 {
   "item": {
+    "accountId": "accountId1",
     "accountNumber": "account1",
-    "customerId": "customerId",
     "ownerCustomerId": "customerId",
     "name": "Brukskonto",
     "accountType": "Standard account",

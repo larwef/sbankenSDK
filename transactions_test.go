@@ -14,9 +14,10 @@ func TestTransactionService_GetTransactions(t *testing.T) {
 	startDate := time.Now().Add(-24 * time.Hour)
 	endDate := time.Now()
 
-	mux.HandleFunc("/customerId/account1", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/accountId1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		testHeader(t, r, "Accept", "application/json")
+		testHeader(t, r, "customerId", "customerId")
 		queryValues := r.URL.Query()
 		assertEqual(t, queryValues["index"][0], "0")
 		assertEqual(t, queryValues["length"][0], "100")
@@ -25,56 +26,53 @@ func TestTransactionService_GetTransactions(t *testing.T) {
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/transactions_response.json"))
 	})
 	request := TransactionRequest{
-		AccountNumber: "account1",
-		StartIndex:    0,
-		Lenght:        100,
-		StartDate:     startDate,
-		EndDate:       endDate,
+		AccountId:  "accountId1",
+		StartIndex: 0,
+		Lenght:     100,
+		StartDate:  startDate,
+		EndDate:    endDate,
 	}
 
-	transactions, err := client.Transactions.GetTransactions("customerId", request)
+	transactions, err := client.Transactions.GetTransactions(request)
 	assertNotError(t, err)
 
 	assertEqual(t, len(transactions), 5)
 
-	assertEqual(t, *transactions[0].TransactionId, "transaction1")
-	assertEqual(t, *transactions[0].CustomerId, "customerId")
-	assertEqual(t, *transactions[0].AccountNumber, "account1")
-	assertEqual(t, *transactions[0].Amount, -5.06)
-	assertEqual(t, *transactions[0].Text, "USD 0.64 Amazon web services Kurs: 7.9063")
+	assertEqual(t, *transactions[0].CardDetailsSpecified, false)
+	assertEqual(t, *transactions[0].TransactionType, "Visa")
+	assertEqual(t, *transactions[0].Amount, -5.4)
+	assertEqual(t, *transactions[0].Text, "Sometext1")
 
-	assertEqual(t, *transactions[1].TransactionId, "transaction2")
-	assertEqual(t, *transactions[1].CustomerId, "customerId")
-	assertEqual(t, *transactions[1].AccountNumber, "account1")
-	assertEqual(t, *transactions[1].Amount, -100.0)
-	assertEqual(t, *transactions[1].Text, "SomeTest")
+	assertEqual(t, *transactions[1].CardDetailsSpecified, false)
+	assertEqual(t, *transactions[1].TransactionType, "KREDITRTE")
+	assertEqual(t, *transactions[1].Amount, 0.31)
+	assertEqual(t, *transactions[1].Text, "Sometext2")
 
-	assertEqual(t, *transactions[3].TransactionId, "transaction4")
-	assertEqual(t, *transactions[3].CustomerId, "customerId")
-	assertEqual(t, *transactions[3].AccountNumber, "account1")
-	assertEqual(t, *transactions[3].Amount, 100.0)
-	assertEqual(t, *transactions[3].Text, "Til Bruk")
+	assertEqual(t, *transactions[3].CardDetailsSpecified, false)
+	assertEqual(t, *transactions[3].TransactionType, "AVTGI")
+	assertEqual(t, *transactions[3].Amount, -1740.0)
+	assertEqual(t, *transactions[3].Text, "Sometext4")
 }
 
 func TestTransactionService_GetTransactions_WithError(t *testing.T) {
 	client, mux, teardown := setup()
 	defer teardown()
 
-	mux.HandleFunc("/customerId/account1", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/accountId1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		testHeader(t, r, "Accept", "application/json")
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/error_response.json"))
 	})
 
 	request := TransactionRequest{
-		AccountNumber: "account1",
-		StartIndex:    0,
-		Lenght:        100,
-		StartDate:     time.Now().Add(-24 * time.Hour),
-		EndDate:       time.Now(),
+		AccountId:  "accountId1",
+		StartIndex: 0,
+		Lenght:     100,
+		StartDate:  time.Now().Add(-24 * time.Hour),
+		EndDate:    time.Now(),
 	}
 
-	transactions, err := client.Transactions.GetTransactions("customerId", request)
+	transactions, err := client.Transactions.GetTransactions(request)
 	assertEqual(t, len(transactions), 0)
 	assertEqual(t, err.Error(), "SomeErrorMessage")
 }

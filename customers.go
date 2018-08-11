@@ -52,15 +52,15 @@ type phoneNumber struct {
 }
 
 // GetCustomer gets information about a customer.
-func (as *CustomersService) GetCustomer() (Customer, error) {
+func (as *CustomersService) GetCustomer() (*Customer, error) {
 	var response customerResponse
 	_, err := as.client.get(as.client.config.CustomersEndpoint, nil, &response)
 
 	if response.IsError != nil && *response.IsError == true {
-		return Customer{}, errors.New(*response.ErrorMessage)
+		return &Customer{}, errors.New(*response.ErrorMessage)
 	}
 
-	return *response.Item, err
+	return response.Item, err
 }
 
 // Need this because the customer response contain an unsupported time format for birthDate.

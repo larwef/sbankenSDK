@@ -41,13 +41,13 @@ func (as *AccountService) GetAccounts() ([]Account, error) {
 }
 
 // GetAccount gets information about a specified account.
-func (as *AccountService) GetAccount(accountID string) (Account, error) {
+func (as *AccountService) GetAccount(accountID string) (*Account, error) {
 	var response accountResponse
 	_, err := as.client.get(as.client.config.AccountsEndpoint+accountID, nil, &response)
 
 	if response.IsError != nil && *response.IsError == true {
-		return Account{}, errors.New(*response.ErrorMessage)
+		return &Account{}, errors.New(*response.ErrorMessage)
 	}
 
-	return *response.Item, err
+	return response.Item, err
 }

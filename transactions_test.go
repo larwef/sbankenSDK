@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"fmt"
@@ -26,7 +26,7 @@ func TestTransactionService_GetTransactions(t *testing.T) {
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/transactions_response.json"))
 	})
 	request := TransactionRequest{
-		AccountId:  "accountId1",
+		AccountID:  "accountId1",
 		StartIndex: 0,
 		Lenght:     100,
 		StartDate:  startDate,
@@ -65,7 +65,7 @@ func TestTransactionService_GetTransactions_WithError(t *testing.T) {
 	})
 
 	request := TransactionRequest{
-		AccountId:  "accountId1",
+		AccountID:  "accountId1",
 		StartIndex: 0,
 		Lenght:     100,
 		StartDate:  time.Now().Add(-24 * time.Hour),

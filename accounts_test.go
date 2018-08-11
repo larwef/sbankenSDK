@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"fmt"
@@ -22,21 +22,21 @@ func TestAccountService_GetAccounts(t *testing.T) {
 
 	assertEqual(t, len(accounts), 4)
 
-	assertEqual(t, *accounts[0].OwnerCustomerId, "customerId")
+	assertEqual(t, *accounts[0].OwnerCustomerID, "customerId")
 	assertEqual(t, *accounts[0].AccountNumber, "account1")
-	assertEqual(t, *accounts[0].AccountId, "accountId1")
+	assertEqual(t, *accounts[0].AccountID, "accountId1")
 
-	assertEqual(t, *accounts[1].OwnerCustomerId, "customerId")
+	assertEqual(t, *accounts[1].OwnerCustomerID, "customerId")
 	assertEqual(t, *accounts[1].AccountNumber, "account2")
-	assertEqual(t, *accounts[1].AccountId, "accountId2")
+	assertEqual(t, *accounts[1].AccountID, "accountId2")
 
-	assertEqual(t, *accounts[2].OwnerCustomerId, "customerId")
+	assertEqual(t, *accounts[2].OwnerCustomerID, "customerId")
 	assertEqual(t, *accounts[2].AccountNumber, "account3")
-	assertEqual(t, *accounts[2].AccountId, "accountId3")
+	assertEqual(t, *accounts[2].AccountID, "accountId3")
 
-	assertEqual(t, *accounts[3].OwnerCustomerId, "customerId")
+	assertEqual(t, *accounts[3].OwnerCustomerID, "customerId")
 	assertEqual(t, *accounts[3].AccountNumber, "account4")
-	assertEqual(t, *accounts[3].AccountId, "accountId4")
+	assertEqual(t, *accounts[3].AccountID, "accountId4")
 }
 
 func TestAccountService_GetAccounts_WithError(t *testing.T) {
@@ -68,7 +68,7 @@ func TestAccountService_GetAccount(t *testing.T) {
 
 	account, err := client.Accounts.GetAccount("accountId1")
 	assertNotError(t, err)
-	assertEqual(t, *account.OwnerCustomerId, "customerId")
+	assertEqual(t, *account.OwnerCustomerID, "customerId")
 	assertEqual(t, *account.AccountNumber, "account1")
 	assertEqual(t, *account.Available, 10389.51)
 }

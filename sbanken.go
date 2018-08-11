@@ -1,9 +1,9 @@
-// Implements Customers, Accounts, Transaction and Transfer.
+// Package sbankensdk implements Customers, Accounts, Transaction and Transfer.
 //
 // API-documentation:
 // https://api.sbanken.no/Bank/swagger/index.html
 // https://api.sbanken.no/Customers/swagger/index.html
-package sbankenSDK
+package sbankensdk
 
 import (
 	"bytes"
@@ -12,6 +12,7 @@ import (
 	"net/http"
 )
 
+// A Client handling communication with the Sbanken API.
 type Client struct {
 	client *http.Client
 	config Config
@@ -24,6 +25,7 @@ type Client struct {
 	Transfers    *TransferService
 }
 
+// NewClient returns a new Client object. If a nil http.Client is passed, the http.DefaultClient is used.
 func NewClient(httpClient *http.Client, config Config) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
@@ -75,7 +77,7 @@ func (c *Client) getRequest(url string, method string, queryParams map[string]st
 	}
 
 	request.Header.Add("Accept", "application/json")
-	request.Header.Add("customerId", c.config.CustomerId)
+	request.Header.Add("customerId", c.config.CustomerID)
 
 	query := request.URL.Query()
 	for key, value := range queryParams {

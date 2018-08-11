@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"fmt"
@@ -17,14 +17,14 @@ func TestTransferService_Transfer(t *testing.T) {
 		fmt.Fprint(w, getTestFileAsString(t, "testdata/transactions_response.json"))
 	})
 
-	fromAccountId := "accountId1"
-	toAccountId := "accountId2"
+	fromAccountID := "accountId1"
+	toAccountID := "accountId2"
 	amount := 100.0
 	message := "testMessage"
 
 	request := TransferRequest{
-		FromAccountId: &fromAccountId,
-		ToAccountId:   &toAccountId,
+		FromAccountID: &fromAccountID,
+		ToAccountID:   &toAccountID,
 		Amount:        &amount,
 		Message:       &message,
 	}

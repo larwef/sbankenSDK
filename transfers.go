@@ -1,18 +1,20 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"errors"
 )
 
+// TransferService handles communication with the Transfers part of the API.
 type TransferService service
 
 type transferResponse struct {
 	sbankenError
 }
 
+// TransferRequest holds parameters for transfering funds from one account to another.
 type TransferRequest struct {
-	FromAccountId *string  `json:"fromAccountId,omitempty"`
-	ToAccountId   *string  `json:"toAccountId,omitempty"`
+	FromAccountID *string  `json:"fromAccountId,omitempty"`
+	ToAccountID   *string  `json:"toAccountId,omitempty"`
 	Amount        *float64 `json:"amount,omitempty"`
 	Message       *string  `json:"message,omitempty"`
 }

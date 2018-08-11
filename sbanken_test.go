@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"io/ioutil"
@@ -18,7 +18,7 @@ func setup() (client *Client, mux *http.ServeMux, teardown func()) {
 	server := httptest.NewServer(apiHandler)
 
 	config := Config{
-		CustomerId:           "customerId",
+		CustomerID:           "customerId",
 		AccountsEndpoint:     server.URL + "/",
 		TransactionsEndpoint: server.URL + "/",
 		TransfersEndpoint:    server.URL + "/",

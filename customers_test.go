@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ func TestCustomersService_GetCustomer(t *testing.T) {
 	customer, err := client.Customers.GetCustomer()
 	assertNotError(t, err)
 
-	assertEqual(t, *customer.CustomerId, "customerId")
+	assertEqual(t, *customer.CustomerID, "customerId")
 	expectedDate, _ := time.Parse(time.RFC3339, "1992-02-13T00:00:00Z")
 	assertEqual(t, *customer.DateOfBirth.Time, expectedDate)
 	assertEqual(t, *customer.EmailAddress, "donduc@gmail.com")

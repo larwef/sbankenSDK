@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"encoding/json"
@@ -7,9 +7,10 @@ import (
 	"os"
 )
 
+// Config holds the paramters used to authenticate and call services.
 type Config struct {
-	CustomerId           string `json:"customerId,omitempty"`
-	ClientId             string `json:"clientId,omitempty"`
+	CustomerID           string `json:"customerId,omitempty"`
+	ClientID             string `json:"clientId,omitempty"`
 	ClientSecret         string `json:"clientSecret,omitempty"`
 	IdentityServer       string `json:"identityServer,omitempty"`
 	AccountsEndpoint     string `json:"accountsEndpoint,omitempty"`
@@ -18,7 +19,7 @@ type Config struct {
 	CustomersEndpoint    string `json:"customersEndpoint,omitempty"`
 }
 
-// Retrieves config from .json file
+// ConfigFromFile retrieves config from .json file.
 func ConfigFromFile(filepath string) Config {
 	file, err := ioutil.ReadFile(filepath)
 	if err != nil {

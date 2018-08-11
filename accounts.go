@@ -1,7 +1,8 @@
-package sbankenSDK
+package sbankensdk
 
 import "errors"
 
+// AccountService handles communication with the account part of the API.
 type AccountService service
 
 type accountsResponse struct {
@@ -15,10 +16,11 @@ type accountResponse struct {
 	sbankenError
 }
 
+// Account represents an account resource.
 type Account struct {
-	AccountId       *string  `json:"accountId,omitempty"`
+	AccountID       *string  `json:"accountId,omitempty"`
 	AccountNumber   *string  `json:"accountNumber,omitempty"`
-	OwnerCustomerId *string  `json:"ownerCustomerId,omitempty"`
+	OwnerCustomerID *string  `json:"ownerCustomerId,omitempty"`
 	Name            *string  `json:"name,omitempty"`
 	AccountType     *string  `json:"accountType,omitempty"`
 	Available       *float64 `json:"available,omitempty"`
@@ -26,7 +28,7 @@ type Account struct {
 	CreditLimit     *float64 `json:"creditLimit,omitempty"`
 }
 
-// Gets all accounts for user.
+// GetAccounts gets all accounts for user.
 func (as *AccountService) GetAccounts() ([]Account, error) {
 	var accountsRsp accountsResponse
 	_, err := as.client.get(as.client.config.AccountsEndpoint, nil, &accountsRsp)
@@ -38,10 +40,10 @@ func (as *AccountService) GetAccounts() ([]Account, error) {
 	return accountsRsp.Items, err
 }
 
-// Gets information about a specified account.
-func (as *AccountService) GetAccount(accountId string) (Account, error) {
+// GetAccount gets information about a specified account.
+func (as *AccountService) GetAccount(accountID string) (Account, error) {
 	var response accountResponse
-	_, err := as.client.get(as.client.config.AccountsEndpoint+accountId, nil, &response)
+	_, err := as.client.get(as.client.config.AccountsEndpoint+accountID, nil, &response)
 
 	if response.IsError != nil && *response.IsError == true {
 		return Account{}, errors.New(*response.ErrorMessage)

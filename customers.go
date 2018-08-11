@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"errors"
@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// CustomersService handles communication with the Customers part of the API.
 type CustomersService service
 
 type customerResponse struct {
@@ -13,8 +14,9 @@ type customerResponse struct {
 	sbankenError
 }
 
+// Customer represents a customer resource.
 type Customer struct {
-	CustomerId    *string        `json:"customerId,omitempty"`
+	CustomerID    *string        `json:"customerId,omitempty"`
 	FirstName     *string        `json:"firstName,omitempty"`
 	LastName      *string        `json:"lastName,omitempty"`
 	EmailAddress  *string        `json:"emailAddress,omitempty"`
@@ -49,7 +51,7 @@ type phoneNumber struct {
 	Number      *string `json:"number,omitempty"`
 }
 
-// Gets information about a customer.
+// GetCustomer gets information about a customer.
 func (as *CustomersService) GetCustomer() (Customer, error) {
 	var response customerResponse
 	_, err := as.client.get(as.client.config.CustomersEndpoint, nil, &response)
@@ -61,7 +63,7 @@ func (as *CustomersService) GetCustomer() (Customer, error) {
 	return *response.Item, err
 }
 
-// Need this because the customer response contain an unsupported time format for birthDate
+// Need this because the customer response contain an unsupported time format for birthDate.
 type customTime struct {
 	*time.Time
 }

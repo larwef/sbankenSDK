@@ -1,4 +1,4 @@
-package sbankenSDK
+package sbankensdk
 
 import (
 	"errors"
@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// TransactionService handles the Transactions part of the API.
 type TransactionService service
 
 type transactionsResponse struct {
@@ -14,14 +15,16 @@ type transactionsResponse struct {
 	sbankenError
 }
 
+// TransactionRequest collects the query parameters used for retrieving transactions.
 type TransactionRequest struct {
-	AccountId  string
+	AccountID  string
 	StartIndex int
 	Lenght     int
 	StartDate  time.Time
 	EndDate    time.Time
 }
 
+// Transaction represents a transaction resource.
 type Transaction struct {
 	AccountingDate              *time.Time   `json:"accountingDate,omitempty"`
 	InterestDate                *time.Time   `json:"interestDate,omitempty"`
@@ -49,10 +52,10 @@ type cardDetails struct {
 	MerchantName                *string    `json:"merchantName,omitempty"`
 	OriginalCurrencyCode        *string    `json:"originalCurrencyCode,omitempty"`
 	PurchaseDate                *time.Time `json:"purchaseDate,omitempty"`
-	TransactionId               *string    `json:"transactionId"`
+	TransactionID               *string    `json:"transactionId"`
 }
 
-// Gets transactions for a specified account
+// GetTransactions gets transactions for a specified account.
 func (ts *TransactionService) GetTransactions(request TransactionRequest) ([]Transaction, error) {
 	queryParams := map[string]string{
 		"index":     strconv.Itoa(request.StartIndex),
@@ -62,7 +65,7 @@ func (ts *TransactionService) GetTransactions(request TransactionRequest) ([]Tra
 	}
 
 	var response transactionsResponse
-	rsp, err := ts.client.get(ts.client.config.TransactionsEndpoint+request.AccountId, queryParams, &response)
+	rsp, err := ts.client.get(ts.client.config.TransactionsEndpoint+request.AccountID, queryParams, &response)
 	defer rsp.Body.Close()
 	if err != nil {
 		return []Transaction{}, err

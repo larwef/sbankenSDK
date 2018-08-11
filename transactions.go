@@ -61,16 +61,16 @@ func (ts *TransactionService) GetTransactions(request TransactionRequest) ([]Tra
 		"endDate":   request.EndDate.Format(time.RFC3339),
 	}
 
-	var transactionsRsp transactionsResponse
-	response, err := ts.client.get(ts.client.config.TransactionsEndpoint+request.AccountId, queryParams, &transactionsRsp)
-	defer response.Body.Close()
+	var response transactionsResponse
+	rsp, err := ts.client.get(ts.client.config.TransactionsEndpoint+request.AccountId, queryParams, &response)
+	defer rsp.Body.Close()
 	if err != nil {
 		return []Transaction{}, err
 	}
 
-	if *transactionsRsp.IsError == true {
-		return []Transaction{}, errors.New(*transactionsRsp.ErrorMessage)
+	if response.IsError != nil && *response.IsError == true {
+		return []Transaction{}, errors.New(*response.ErrorMessage)
 	}
 
-	return transactionsRsp.Items, err
+	return response.Items, err
 }

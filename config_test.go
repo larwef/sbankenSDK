@@ -12,6 +12,7 @@ const (
 	accountsEndpoint     = "https://api.sbanken.no/bank/api/v1/Accounts/"
 	transactionsEndpoint = "https://api.sbanken.no/bank/api/v1/Transactions/"
 	transfersEndpoint    = "https://api.sbanken.no/bank/api/v1/Transfers/"
+	customersEndpoint    = "https://api.sbanken.no/customers/api/v1/Customers"
 )
 
 func TestConfigFromFile(t *testing.T) {
@@ -24,4 +25,5 @@ func TestConfigFromFile(t *testing.T) {
 	assertEqual(t, config.AccountsEndpoint, accountsEndpoint)
 	assertEqual(t, config.TransactionsEndpoint, transactionsEndpoint)
 	assertEqual(t, config.TransfersEndpoint, transfersEndpoint)
+	assertEqual(t, config.CustomersEndpoint, customersEndpoint)
 }

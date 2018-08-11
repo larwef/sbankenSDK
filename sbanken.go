@@ -1,3 +1,8 @@
+// Implements Customers, Accounts, Transaction and Transfer.
+//
+// API-documentation:
+// https://api.sbanken.no/Bank/swagger/index.html
+// https://api.sbanken.no/Customers/swagger/index.html
 package sbankenSDK
 
 import (
@@ -13,6 +18,7 @@ type Client struct {
 
 	common service
 
+	Customers    *CustomersService
 	Accounts     *AccountService
 	Transactions *TransactionService
 	Transfers    *TransferService
@@ -26,6 +32,7 @@ func NewClient(httpClient *http.Client, config Config) *Client {
 	c := &Client{client: httpClient, config: config}
 
 	c.common.client = c
+	c.Customers = (*CustomersService)(&c.common)
 	c.Accounts = (*AccountService)(&c.common)
 	c.Transactions = (*TransactionService)(&c.common)
 	c.Transfers = (*TransferService)(&c.common)

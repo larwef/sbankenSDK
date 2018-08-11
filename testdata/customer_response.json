@@ -1,0 +1,37 @@
+{
+  "item": {
+    "customerId": "customerId",
+    "firstName": "DONALD",
+    "lastName": "DUCK",
+    "emailAddress": "donduc@gmail.com",
+    "dateOfBirth": "1992-02-13T00:00:00",
+    "postalAddress": {
+      "addressLine1": "Andebyveien 101",
+      "addressLine2": "",
+      "addressLine3": "3041 Andeby",
+      "addressLine4": "NORGE",
+      "country": "NO",
+      "zipCode": null,
+      "city": null
+    },
+    "streetAddress": {
+      "addressLine1": "Andebyveien 101",
+      "addressLine2": "",
+      "addressLine3": null,
+      "addressLine4": null,
+      "country": null,
+      "zipCode": "3041",
+      "city": "Andeby"
+    },
+    "phoneNumbers": [
+      {
+        "countryCode": "47",
+        "number": "1213141516"
+      }
+    ]
+  },
+  "errorType": null,
+  "isError": false,
+  "errorMessage": null,
+  "traceId": null
+}

@@ -1,6 +1,3 @@
-// Implements Accounts, Transaction and Transfer.
-//
-// API-documentation: https://api.sbanken.no/Bank/swagger/index.html
 package sbankenSDK
 
 import "errors"
@@ -43,12 +40,12 @@ func (as *AccountService) GetAccounts() ([]Account, error) {
 
 // Gets information about a specified account.
 func (as *AccountService) GetAccount(accountId string) (Account, error) {
-	var accountRsp accountResponse
-	_, err := as.client.get(as.client.config.AccountsEndpoint+accountId, nil, &accountRsp)
+	var response accountResponse
+	_, err := as.client.get(as.client.config.AccountsEndpoint+accountId, nil, &response)
 
-	if *accountRsp.IsError == true {
-		return Account{}, errors.New(*accountRsp.ErrorMessage)
+	if response.IsError != nil && *response.IsError == true {
+		return Account{}, errors.New(*response.ErrorMessage)
 	}
 
-	return *accountRsp.Item, err
+	return *response.Item, err
 }

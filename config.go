@@ -15,6 +15,7 @@ type Config struct {
 	AccountsEndpoint     string `json:"accountsEndpoint,omitempty"`
 	TransactionsEndpoint string `json:"transactionsEndpoint,omitempty"`
 	TransfersEndpoint    string `json:"transfersEndpoint,omitempty"`
+	CustomersEndpoint    string `json:"customersEndpoint,omitempty"`
 }
 
 // Retrieves config from .json file

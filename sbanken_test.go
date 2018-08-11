@@ -22,6 +22,7 @@ func setup() (client *Client, mux *http.ServeMux, teardown func()) {
 		AccountsEndpoint:     server.URL + "/",
 		TransactionsEndpoint: server.URL + "/",
 		TransfersEndpoint:    server.URL + "/",
+		CustomersEndpoint:    server.URL + "/",
 	}
 	client = NewClient(&http.Client{}, config)
 

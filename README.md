@@ -20,7 +20,6 @@ Example configuration:
 ```
 
 ### How to create a http.Client with Oauth
-Note that the Sbanken token endpoint expects basic auth to be coded like `base64(clientId:clientSecret)` while the oauth2 library encodes it like `base64(urlEncode(cliendId):urlEncode(clientSecret))`. This means you wil have to request passwords until you get one without conflicting characters. E.g. ?, =, &
 ```
 import (
     "golang.org/x/oauth2/clientcredentials"
